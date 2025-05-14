@@ -25,7 +25,7 @@
     "sass": "^1.66.1"
   },
   "dependencies": {
-    "@abi-software/mapintegratedvuer": "1.9.0-externalise.0",
+    "@abi-software/mapintegratedvuer": "1.9.0-beta.1",
     "@abi-software/plotcomponents": "^0.2.0",
     "@abi-software/plotdatahelpers": "^0.1.2",
     "@abi-software/simulationvuer": "1.0.1",
@@ -50,7 +50,7 @@
     "plyr": "^3.7.8",
     "postscribe": "^2.0.8",
     "ramda": "^0.29.0",
-    "sparc-dashboard-beta": "0.4.24-test",
+    "sparc-dashboard-beta": "^0.2.0",
     "sparc-design-system-components-2": "1.0.1",
     "striptags": "^3.2.0",
     "uint8array-extras": "^1.0.0",
