@@ -26,10 +26,12 @@ export default {
           label: 'SPARC Apps',
         }
       ],
-      dBItems: [{ id: "FlatmapViewer-1", x: 0, y: 0, h: 8, w:2, componentName:"Flatmap Viewer",component:"FlatmapViewer" },
-    { id: "ImageSelector-2", x: 2, y: 0, h: 8, w:3, componentName:"Image Selector", component:"ImageSelector"},
-    { id: "BiolucidaViewer-3", x: 5, y: 0,h: 11, w:7, componentName:"MBF Viewer", component:"BiolucidaViewer"},
-    { id: "ODBGraph-1", x: 0, y: 8, h: 3, w:5, componentName:"Graph",component:"QDBGraph" }]
+      dBItems:[{ id: "SubjectSelector-1",component: "SubjectSelector",componentName: "Select Subject",h:2, w:5, x:0, y:0 },
+        { id: "BiolucidaViewer-2", componentName:"MBF Viewer", component:"BiolucidaViewer", h:11, w:7, x:5, y:0},
+        { id: "FlatmapViewer-3",component: "FlatmapViewer",componentName: "Flatmap Viewer",h: 8, w: 2, x: 0, y: 2},
+        { id: "ImageSelector-4", component:"ImageSelector", componentName:"Image Selector", h:8, w:3, x:2, y:2},
+        { id: "ODBGraph-5", component: "QDBGraph", componentName: "Graph", h: 3, w: 5, x: 0, y: 10, }
+      ]
     }
   }
 }
