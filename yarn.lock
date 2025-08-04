@@ -17356,10 +17356,10 @@ source-map@^0.7.4:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
   integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
-sparc-dashboard-beta@0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/sparc-dashboard-beta/-/sparc-dashboard-beta-0.5.3.tgz#88b465f14e12218f01441c80d951107c3eea97ba"
-  integrity sha512-+VvuEbDB7zHx7WBm2Zerfql4+OiMSvTE09vfGlJNBXSP5cbK+y4aqoT1oLbfqRbfgbXwRcxjHbihDCR1tgeemQ==
+sparc-dashboard-beta@0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/sparc-dashboard-beta/-/sparc-dashboard-beta-0.5.4.tgz#985ae87c8e1110f249a2739954c449f7e88860fc"
+  integrity sha512-qNIF2OZhjWsxCMDhu9F3XXPYstjFM5dd6lJLgmWwyoM8IYN8zcgyJFBtdlAFFBNo+qn+I2JKm1PUmu6LRYt9oA==
   dependencies:
     "@abi-software/flatmap-viewer" "4.2.4"
     "@abi-software/flatmapvuer" "1.10.2"
@@ -17370,6 +17370,7 @@ sparc-dashboard-beta@0.5.3:
     chart.js "^4.4.2"
     element-plus "^2.8.4"
     gridstack "^9.5.0"
+    js-base64 "^3.7.7"
     mitt "^3.0.1"
     pinia "^2.0.0"
     sass "^1.69.5"
