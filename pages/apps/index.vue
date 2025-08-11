@@ -41,8 +41,24 @@ const breadcrumb = [
 ]
 
 const constructPortalFeatureEntries = (apps) => {
-  if (!apps) return []
-  return apps.map((app) => {
+  // manually add dashboard for now since we don't want it showing up on staging
+  const dashApp = {
+    fields: {
+      buttonLink: '/apps/dashboard',
+      buttonText: 'View Dashboard',
+      description: 'A customizable dashboard that allows users to find and compare information about specific areas of the vagus nerve across multiple subjects.',
+      title: 'SPARC Dashboard',
+      icon: {
+        fields: {
+          file: {
+            url: 'https://images.ctfassets.net/6bya4tyw8399/3PASFiO6fSuotKyLJRUvSR/3abe90a84acd1c9a66b2bb0d69bbc5b4/SPARC_dashboard.png'
+          }
+        }
+      }
+    }
+  }
+  if (!apps) return [dashApp]
+  let features = apps.map((app) => {
     const buttonLink = app.fields.requiresDetailsPage
       ? `/resources/${app.sys.id}`
       : pathOr('', ['fields', 'url'], app)
@@ -62,6 +78,8 @@ const constructPortalFeatureEntries = (apps) => {
       },
     }
   })
+  features.unshift(dashApp)
+  return features
 }
 
 const config = useRuntimeConfig()
@@ -75,8 +93,8 @@ const { data: appData } = await useAsyncData('apps-page-data', async () => {
   }
 })
 
-const fields = computed(() => appData.value.fields || {})
-const appEntries = computed(() => appData.value.appEntries || [])
+const fields = computed(() => appData.value?.fields || {})
+const appEntries = computed(() => appData.value?.appEntries || [])
 const title = computed(() => fields.value?.title || '')
 const description = computed(() => fields.value?.description || '')
 const appsSectionTitle = computed(() => fields.value?.appsSectionTitle || '')
