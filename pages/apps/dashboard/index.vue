@@ -1,8 +1,28 @@
 <template>
-  <div>
+  <div class="page-container">
     <breadcrumb :breadcrumb="breadcrumb" :title=title />
+    <page-hero class="py-24">
+      <div class="page-hero-content">
+        <div>
+          <h1>SPARC Dashboard</h1>
+          <p>
+            Explore an evolving collection of interactive widgets designed to analyze and interpret data about the vagus nerve. This platform brings together visualizations, metrics, and insights to support research and discovery. Data publication is an ongoing effort, with new findings and resources continuously being added as the SPARC project advances.
+          </p>
+        </div>
+      </div>
+    </page-hero>
+    <div class="beta-tooltip px-32 py-4">
+      <sparc-tooltip
+        placement="left-center"
+        content="Under active development"
+      >
+        <template #item>
+          <div class="beta-tag"><el-icon class="beta-icon"><WarningFilled /></el-icon>Beta</div>
+        </template>
+      </sparc-tooltip>
+    </div>
     <client-only>
-      <SparcDashboard :dBItems="dBItems"/>
+      <SparcDashboard class="px-32" :dBItems="dBItems"/>
     </client-only>
   </div>
 </template>
@@ -37,6 +57,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.page-container {
+  background-color: #f6fcff;
+}
 .dashboard-app{
     --el-color-primary: #8300bf;
     --el-color-primary-light-3: #fbfdff;
@@ -58,4 +81,25 @@ export default {
         padding-right:4px;
     }
   }
+
+.page-hero-content {
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: 64rem) {
+    display: block;
+  }
+}
+.beta-tooltip {
+  display: flex;
+  width: fit-content;
+}
+.beta-tag {
+  color: #ff8400;
+  display: flex;
+  width: fit-content;
+}
+.beta-icon {
+  font-size: 25px;
+}
 </style>
