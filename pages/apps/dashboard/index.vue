@@ -22,13 +22,22 @@
       </sparc-tooltip>
     </div>
     <client-only>
-      <SparcDashboard class="px-32" :dBItems="dBItems"/>
+      <SparcDashboard class="px-32" :dBItems="dBItems" :options="dashboardOptions"/>
     </client-only>
   </div>
 </template>
 <script>
+import algoliasearch from 'algoliasearch'
 export default {
   name: 'SparcDashboardPage',
+    setup() {
+    const config = useRuntimeConfig()
+    const AlgoliaClient = algoliasearch(
+      config.public.ALGOLIA_APP_ID,
+      config.public.ALGOLIA_API_KEY
+    )
+    return { config, AlgoliaClient }
+  },
   data() {
     return {
       title: 'SPARC Dashboard',
@@ -51,7 +60,17 @@ export default {
         { id: "FlatmapViewer-3",component: "FlatmapViewer",componentName: "Flatmap Viewer",h: 8, w: 2, x: 0, y: 2},
         { id: "ImageSelector-4", component:"ImageSelector", componentName:"Image Selector", h:8, w:3, x:2, y:2},
         { id: "ODBGraph-5", component: "QDBGraph", componentName: "Graph", h: 3, w: 5, x: 0, y: 10, }
-      ]
+      ],
+      dashboardOptions :{
+        services:{
+          AlgoliaClient: this.AlgoliaClient,
+          AlgoliaConfig:{
+            apiKey:this.config.public.ALGOLIA_API_KEY,
+            appID:this.config.public.ALGOLIA_APP_ID,
+            indexName:this.config.public.ALGOLIA_INDEX_VERSION_PUBLISHED_TIME_DESC
+          }
+        }
+      }
     }
   }
 }

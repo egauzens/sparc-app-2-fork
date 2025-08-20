@@ -10425,6 +10425,11 @@ envinfo@^7.7.3:
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.13.0.tgz#81fbb81e5da35d74e814941aeab7c325a606fb31"
   integrity sha512-cvcaMr7KqXVh4nyzGTVqTum+gAiL265x5jUWQIDLq//zOGbW+gSW/C+OWLleY/rs9Qole6AZLMXPbtIFQbqu+Q==
 
+epic-spinners@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/epic-spinners/-/epic-spinners-2.0.0.tgz#47be27c1b6007ccd4e30cf3bc6a8b5f1ca230e4a"
+  integrity sha512-nU7xF7NoXrObmIGdXYwj1hfE3EH3jDVQ8oi1S5wG0yutrQILMJ3Xs0ZQEdGIjBQnFveDrAs/61m8/vm5SMvObA==
+
 err-code@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/err-code/-/err-code-2.0.3.tgz#23c2f3b756ffdfc608d30e27c9a941024807e7f9"
@@ -17356,10 +17361,10 @@ source-map@^0.7.4:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
   integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
-sparc-dashboard-beta@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/sparc-dashboard-beta/-/sparc-dashboard-beta-0.5.4.tgz#985ae87c8e1110f249a2739954c449f7e88860fc"
-  integrity sha512-qNIF2OZhjWsxCMDhu9F3XXPYstjFM5dd6lJLgmWwyoM8IYN8zcgyJFBtdlAFFBNo+qn+I2JKm1PUmu6LRYt9oA==
+sparc-dashboard-beta@0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/sparc-dashboard-beta/-/sparc-dashboard-beta-0.5.5.tgz#8ee8e0e1c356bc385a78dc44cec64e62096b9352"
+  integrity sha512-+GE1ngbSF4dNUJS4oBhcx0UM9g5RcyExqIRPyV9YCB1ZjlHCrJ2sgb8FRKLJvLOxtVbHodvfyaAi9O3DzMCWOg==
   dependencies:
     "@abi-software/flatmap-viewer" "4.2.4"
     "@abi-software/flatmapvuer" "1.10.2"
@@ -17369,6 +17374,7 @@ sparc-dashboard-beta@0.5.4:
     axios "^1.6.7"
     chart.js "^4.4.2"
     element-plus "^2.8.4"
+    epic-spinners "^2.0.0"
     gridstack "^9.5.0"
     js-base64 "^3.7.7"
     mitt "^3.0.1"
