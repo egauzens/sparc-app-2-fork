@@ -148,9 +148,11 @@ const navItems = [
     links: [
       { title: 'Datasets & models', sub: 'Search across all resources · free, no account required', href: '/data?type=dataset' },
       { title: 'Flatmap', sub: 'Navigate by anatomy', href: '/apps/maps?type=ac' },
-      { title: 'Documentation', sub: 'Guides, tutorials, and help', href: 'https://docs.sparc.science/', external: true },
+      { title: 'Projects', sub: 'Browse active SPARC-funded projects', href: '/apps/maps?type=ac' },
+      { title: 'News & Events', sub: 'Updates from the SPARC program', href: '/news-and-events' },
       { divider: true },
-      { title: 'API documentation', sub: 'Schemas, endpoints, examples', href: 'https://docs.sparc.science/docs/sparc-apis-and-open-access-code', external: true },
+      { title: 'Documentation', sub: 'Guides, tutorials, and help', href: 'https://docs.sparc.science/', external: true },
+      { title: 'Support', sub: 'Contact us with questions or feedback', href: '/contact-us' },
     ]
   },
   {
@@ -160,10 +162,9 @@ const navItems = [
     iconHtml: UPLOAD_ICON,
     links: [
       { title: 'Submit data', sub: 'Deposit datasets and protocols', href: '/share-data' },
-      { title: 'Share a tool', sub: 'Register software or models', href: '/tools-and-resources' },
       { title: 'Join a consortium', sub: 'Collaborative research groups', href: '/about' },
       { divider: true },
-      { title: 'Funding', sub: 'Grants and award opportunities', href: '/about' },
+      { title: 'Feedback', sub: 'Help us improve', href: '/contact-us?type=feedback' },
     ]
   },
   {
@@ -177,8 +178,7 @@ const navItems = [
       { title: 'SPARC Program', sub: 'Autonomic nervous system mapping', href: '/about/consortia/sparc' },
       { title: 'VITAL', sub: 'Visceral pain and interoception', href: '/about/consortia/vital' },
       { divider: true },
-      { title: 'News', sub: 'Updates from the SPARC program', href: '/news-and-events' },
-      { title: 'Feedback', sub: 'Help us improve', href: '/contact-us' },
+      { title: 'Share', sub: 'Share a news, event, or story that you would like to highlight', href: '/news-and-events' },
     ]
   },
   {
@@ -188,7 +188,9 @@ const navItems = [
     iconHtml: TOOLS_ICON,
     links: [
       { title: 'Explore', sub: 'Browse all SPARC tools & resources', href: '/tools-and-resources' },
-      { title: 'Apps', sub: 'Tools to help you Find, Use, and Share', href: '/apps/maps?type=ac' }
+      { title: 'Apps', sub: 'Tools to help you Find, Use, and Share', href: '/apps' },
+      { divider: true },
+      { title: 'Share a tool', sub: 'Register software or models', href: '/contact-us?type=tool' },
     ]
   }
 ]
@@ -476,6 +478,7 @@ verifyProfileComplete() {
 
 /* ── Right actions ── */
 .nav-right {
+  margin-left: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
