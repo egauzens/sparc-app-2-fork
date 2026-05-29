@@ -134,7 +134,7 @@
             <div class="section-kicker">Image gallery</div>
             <h3 class="preview-heading">Curated imagery</h3>
             <p class="preview-desc">Featured microscopy and atlas imagery from across SPARC datasets — confocal, smFISH, tracing, and more. Curated by SPARC editors. Each image links to its source dataset. Filter by organ, species, or modality.</p>
-            <nuxt-link to="/apps/biolucida" class="preview-btn">Browse full gallery <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
+            <nuxt-link to="/apps" class="preview-btn">Browse full gallery <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
           </div>
         </div>
 
