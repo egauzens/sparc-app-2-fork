@@ -110,6 +110,7 @@ import FooterLink from './FooterLink.vue'
 import { useMainStore } from '../store/index.js'
 import SparcLogo from 'sparc-design-system-components-2/src/components/SparcLogo'
 import CfdeWheel from '../CfdeWheel/CfdeWheel.vue'
+import anbcLogo from '~/assets/anbc-logo.svg?url'
 
 export default {
   name: 'SparcFooter',
@@ -120,7 +121,7 @@ export default {
   },
   data() {
     return {
-      anbcLogo: new URL('~/assets/anbc-logo.svg', import.meta.url).href
+      anbcLogo
     }
   },
   computed: {
