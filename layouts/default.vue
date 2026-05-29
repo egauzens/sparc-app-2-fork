@@ -1,7 +1,9 @@
 <template>
   <div v-if="!isBot" :class="[disableScrolling ? 'layout' : '']">
     <sparc-header />
-    <slot />
+    <div class="page-content">
+      <slot />
+    </div>
     <sparc-footer />
     <cookie-notice v-if="!hasAcceptedGDPR" />
   </div>
@@ -125,5 +127,11 @@ export default {
     overflow: hidden;
     position: fixed;
   }
+}
+
+.page-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 }
 </style>
