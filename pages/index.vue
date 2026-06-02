@@ -521,10 +521,11 @@ hr {
   position: relative;
   flex: 1;
   min-width: 0;
-  max-width: 580px;
+  max-width: 800px;
 }
 
 .hero-image-wrap {
+  opacity: 0.7;
   flex-shrink: 0;
   mask-image:
     linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%),
@@ -574,7 +575,6 @@ hr {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.75;
-  max-width: 440px;
   margin-bottom: 1.75rem;
   :deep(p) {
     margin: 0;
