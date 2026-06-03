@@ -35,8 +35,12 @@
 
     <!-- Interactive Map Section -->
     <div class="map-section">
-      <div class="map-layout">
-        <div class="map-card">
+      <div class="map-header">
+        <div class="section-kicker">Interactive map</div>
+        <h2 class="section-h2">Navigate the body's wiring diagram</h2>
+        <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
+      </div>
+      <div class="map-card">
         <nuxt-link :to="currentMapSpecies.href" class="map-image-link" :aria-label="`Open ${currentMapSpecies.label} flatmap`">
           <img
             :src="currentMapSpecies.image"
@@ -59,12 +63,6 @@
             >{{ s.label }}</button>
           </div>
         </nuxt-link>
-        </div>
-        <div class="map-text">
-          <div class="section-kicker">Interactive map</div>
-          <h2 class="section-h2">Navigate the body's wiring diagram</h2>
-          <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
-        </div>
       </div>
     </div>
 
@@ -74,15 +72,15 @@
         <div class="section-kicker">Explore the catalog</div>
         <h2 class="section-h2">Discover by facet</h2>
         <p class="section-sub">Browse datasets by experimental approach, anatomical structure, or species.</p>
-        <div class="facet-tabs">
-          <button
-            v-for="tab in facetTabConfig"
-            :key="tab.id"
-            class="facet-tab-pill"
-            :class="{ active: activeFacetTab === tab.id }"
-            @click="activeFacetTab = tab.id"
-          >{{ tab.label }}</button>
-        </div>
+      </div>
+      <div class="facet-tabs">
+        <button
+          v-for="tab in facetTabConfig"
+          :key="tab.id"
+          class="facet-tab-pill"
+          :class="{ active: activeFacetTab === tab.id }"
+          @click="activeFacetTab = tab.id"
+        >{{ tab.label }}</button>
       </div>
       <div class="facet-charts-container">
         <div
@@ -102,9 +100,10 @@
           >
             <div class="facet-bar-label">{{ item.label }}</div>
             <div class="facet-bar-track">
-              <div class="facet-bar-fill" :style="{ width: item.pct + '%' }"></div>
+              <div class="facet-bar-fill" :style="{ width: item.pct + '%' }">
+                <span class="facet-bar-count">{{ item.count.toLocaleString() }}</span>
+              </div>
             </div>
-            <div class="facet-bar-count">{{ item.count.toLocaleString() }}</div>
           </div>
         </div>
       </div>
@@ -112,82 +111,80 @@
 
     <!-- Explore the tools section -->
     <div class="tools-section">
-      <div class="tools-layout">
-      <div class="tools-left">
-      <div class="tools-nav">
-        <button
-          v-for="tab in toolTabs"
-          :key="tab.id"
-          class="tool-tab"
-          :class="{ active: activeToolTab === tab.id }"
-          @click="activeToolTab = tab.id"
-        >
-          <span class="tool-tab-icon" v-html="tab.icon" aria-hidden="true"></span>
-          <span class="tool-tab-label">{{ tab.label }}</span>
-        </button>
-      </div>
-      <div class="tools-previews">
-        <!-- Gallery -->
-        <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'gallery' }">
-          <div class="preview-media"></div>
-          <div class="preview-text">
-            <div class="section-kicker">Image gallery</div>
-            <h3 class="preview-heading">Curated imagery</h3>
-            <p class="preview-desc">Featured microscopy and atlas imagery from across SPARC datasets — confocal, smFISH, tracing, and more. Curated by SPARC editors. Each image links to its source dataset. Filter by organ, species, or modality.</p>
-            <nuxt-link to="/apps" class="preview-btn">Browse full gallery <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
-          </div>
-        </div>
-
-        <!-- SCKAN NLI -->
-        <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'nli' }">
-          <div class="preview-media"></div>
-          <div class="preview-text">
-            <div class="section-kicker">SCKAN NLI</div>
-            <h3 class="preview-heading">Ask questions in plain language</h3>
-            <p class="preview-desc">Query SPARC's autonomic connectivity knowledge base in natural language. Ask about neural pathways or datasets — every answer grounded in published science.</p>
-            <a href="https://sparc.science/tools-and-resources/4LkLiH5s4FV0LVJd3htsMN" target="_blank" rel="noopener" class="preview-btn">Open SCKAN NLI <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-        </div>
-
-        <!-- Cell Explorer -->
-        <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'cell' }">
-          <div class="preview-media"></div>
-          <div class="preview-text">
-            <div class="section-kicker">Cell explorer</div>
-            <h3 class="preview-heading">Cell type exploration</h3>
-            <p class="preview-desc">Explore transcriptomic cell types across SPARC datasets using interactive UMAP visualizations. Gene expression profiles grounded in SPARC's unified metadata.</p>
-            <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open Cell Explorer <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-        </div>
-
-        <!-- Simulate -->
-        <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'simulate' }">
-          <div class="preview-media"></div>
-          <div class="preview-text">
-            <div class="section-kicker">o²S²PARC</div>
-            <h3 class="preview-heading">Simulation and modeling</h3>
-            <p class="preview-desc">Run and share computational models in the cloud. Reproduce published simulations or build your own pipelines — no local install required.</p>
-            <a href="https://osparc.io" target="_blank" rel="noopener" class="preview-btn">Open Simulate <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-        </div>
-
-        <!-- SCKANNER -->
-        <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'sckanner' }">
-          <div class="preview-media"></div>
-          <div class="preview-text">
-            <div class="section-kicker">SCKANNER</div>
-            <h3 class="preview-heading">Tabular connectivity explorer</h3>
-            <p class="preview-desc">Browse and validate SPARC connectivity annotations in a structured table. Filter by origin, destination, nerve pathway, and species.</p>
-            <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open SCKANNER <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          </div>
-        </div>
-      </div>
-      </div>
-      <div class="tools-text">
+      <div class="tools-header">
         <div class="section-kicker">Platform overview</div>
         <h2 class="section-h2">Explore the tools</h2>
         <p class="section-sub">From research images to connectivity queries to running simulations — all grounded in SPARC's unified metadata.</p>
       </div>
+      <div class="tools-left">
+        <div class="tools-nav">
+          <button
+            v-for="tab in toolTabs"
+            :key="tab.id"
+            class="tool-tab"
+            :class="{ active: activeToolTab === tab.id }"
+            @click="activeToolTab = tab.id"
+          >
+            <span class="tool-tab-icon" v-html="tab.icon" aria-hidden="true"></span>
+            <span class="tool-tab-label">{{ tab.label }}</span>
+          </button>
+        </div>
+        <div class="tools-previews">
+          <!-- Gallery -->
+          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'gallery' }">
+            <div class="preview-media"></div>
+            <div class="preview-text">
+              <div class="section-kicker">Image gallery</div>
+              <h3 class="preview-heading">Curated imagery</h3>
+              <p class="preview-desc">Featured microscopy and atlas imagery from across SPARC datasets — confocal, smFISH, tracing, and more. Curated by SPARC editors. Each image links to its source dataset. Filter by organ, species, or modality.</p>
+              <nuxt-link to="/apps" class="preview-btn">Browse full gallery <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
+            </div>
+          </div>
+
+          <!-- SCKAN NLI -->
+          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'nli' }">
+            <div class="preview-media"></div>
+            <div class="preview-text">
+              <div class="section-kicker">SCKAN NLI</div>
+              <h3 class="preview-heading">Ask questions in plain language</h3>
+              <p class="preview-desc">Query SPARC's autonomic connectivity knowledge base in natural language. Ask about neural pathways or datasets — every answer grounded in published science.</p>
+              <a href="https://sparc.science/tools-and-resources/4LkLiH5s4FV0LVJd3htsMN" target="_blank" rel="noopener" class="preview-btn">Open SCKAN NLI <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </div>
+
+          <!-- Cell Explorer -->
+          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'cell' }">
+            <div class="preview-media"></div>
+            <div class="preview-text">
+              <div class="section-kicker">Cell explorer</div>
+              <h3 class="preview-heading">Cell type exploration</h3>
+              <p class="preview-desc">Explore transcriptomic cell types across SPARC datasets using interactive UMAP visualizations. Gene expression profiles grounded in SPARC's unified metadata.</p>
+              <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open Cell Explorer <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </div>
+
+          <!-- Simulate -->
+          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'simulate' }">
+            <div class="preview-media"></div>
+            <div class="preview-text">
+              <div class="section-kicker">o²S²PARC</div>
+              <h3 class="preview-heading">Simulation and modeling</h3>
+              <p class="preview-desc">Run and share computational models in the cloud. Reproduce published simulations or build your own pipelines — no local install required.</p>
+              <a href="https://osparc.io" target="_blank" rel="noopener" class="preview-btn">Open Simulate <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </div>
+
+          <!-- SCKANNER -->
+          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'sckanner' }">
+            <div class="preview-media"></div>
+            <div class="preview-text">
+              <div class="section-kicker">SCKANNER</div>
+              <h3 class="preview-heading">Tabular connectivity explorer</h3>
+              <p class="preview-desc">Browse and validate SPARC connectivity annotations in a structured table. Filter by origin, destination, nerve pathway, and species.</p>
+              <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open SCKANNER <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -197,6 +194,7 @@
     <div class="path-header">
       <div class="section-kicker">Get started</div>
       <h2 class="section-h2">Find your path</h2>
+      <p class="section-sub">Whether you're searching for data, building on it, or contributing your own — find the right entry point into the SPARC ecosystem.</p>
     </div>
     <div class="path-cards">
 
@@ -277,52 +275,17 @@ useHead({
       content:
         'The open community platform for bridging the body and the brain through neuroscience and systems physiology data, computational and spatial modeling, and device design.'
     },
-    {
-      name: 'og:type',
-      content: 'website'
-    },
-    {
-      hid: 'og:title',
-      property: 'og:title',
-      content: 'SPARC Portal'
-    },
-    {
-      name: "google-site-verification",
-      content: `${config.public.GOOGLE_SEARCH_CONSOLE_VERIFICATION_ID}`
-    },
-    {
-      hid: 'og:image',
-      property: 'og:image',
-      content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png'
-    },
-    {
-      hid: 'og:image:secure_url', property: 'og:image:secure_url',
-      content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png'
-    },
-    {
-      name: 'og:site_name',
-      content: 'SPARC Portal'
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary'
-    },
-    {
-      name: 'twitter:site',
-      content: '@sparc_science'
-    },
-    {
-      name: 'twitter:title',
-      content: 'SPARC Portal'
-    },
-    {
-      name: 'twitter:image',
-      content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png'
-    },
-    {
-      name: 'twitter:description',
-      content: 'The open community platform for bridging the body and the brain through neuroscience and systems physiology data, computational and spatial modeling, and device design.'
-    }
+    { name: 'og:type', content: 'website' },
+    { hid: 'og:title', property: 'og:title', content: 'SPARC Portal' },
+    { name: "google-site-verification", content: `${config.public.GOOGLE_SEARCH_CONSOLE_VERIFICATION_ID}` },
+    { hid: 'og:image', property: 'og:image', content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png' },
+    { hid: 'og:image:secure_url', property: 'og:image:secure_url', content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png' },
+    { name: 'og:site_name', content: 'SPARC Portal' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:site', content: '@sparc_science' },
+    { name: 'twitter:title', content: 'SPARC Portal' },
+    { name: 'twitter:image', content: 'https://images.ctfassets.net/6bya4tyw8399/7r5WTb92QnHkub8RsExuc1/2ac134de2ddfd65eb6316421df7578f9/sparc-logo-primary.png' },
+    { name: 'twitter:description', content: 'The open community platform for bridging the body and the brain through neuroscience and systems physiology data, computational and spatial modeling, and device design.' }
   ]
 })
 
@@ -340,12 +303,8 @@ const { data: featuredDatasets, error: featuredDatasetsError } = useAsyncData('f
   }
 });
 
-const institutionId = computed(() => 
-  pathOr(
-    undefined,
-    ['featuredProject', 'fields', 'institutions', 0, 'sys', 'id'],
-    homepageData?.value?.fields
-  )
+const institutionId = computed(() =>
+  pathOr(undefined, ['featuredProject', 'fields', 'institutions', 0, 'sys', 'id'], homepageData?.value?.fields)
 );
 
 const { data: institutionData, error: institutionError } = useAsyncData(
@@ -359,10 +318,8 @@ const { data: institutionData, error: institutionError } = useAsyncData(
 
 const fields = computed(() => {
   if (!homepageData.value) return null;
-
   let fields = getHomepageFields(homepageData.value?.fields);
   const datasetSectionTitle = homepageData.value?.fields.datasetSectionTitle;
-
   if (featuredDatasets.value?.length > 0) {
     const featuredDataset = {
       title: featuredDatasets.value[0].name,
@@ -372,11 +329,9 @@ const fields = computed(() => {
     }
     fields = { ...fields, featuredDataset, datasetSectionTitle }
   }
-
   if (institutionData.value) {
     fields.featuredProject.fields.banner = institutionData.value?.fields.logo.fields.file.url;
   }
-
   return fields;
 })
 
@@ -409,7 +364,7 @@ function buildFacetItems(raw) {
     .sort((a, b) => b.count - a.count)
     .slice(0, 15)
   const max = items[0]?.count || 1
-  return items.map(item => ({ ...item, pct: Math.round((item.count / max) * 100) }))
+  return items.map(item => ({ ...item, pct: Math.max(Math.round((item.count / max) * 100), 1) }))
 }
 
 const facetDataByTab = computed(() => {
@@ -447,7 +402,6 @@ const toolTabs = [
 ]
 const activeToolTab = ref('gallery')
 
-
 const mapSpecies = [
   { id: 'human', label: 'Human', href: '/apps/maps?type=ac&taxon=NCBITaxon:9606',  accent: '#7733bb', image: thumbHuman },
   { id: 'rat',   label: 'Rat',   href: '/apps/maps?type=ac&taxon=NCBITaxon:10114', accent: '#2a9a6a', image: thumbRat },
@@ -461,24 +415,18 @@ if (homepageError.value) {
   console.error(homepageError.value)
   failMessage("Some services are temporarily unavailable, which may cause certain pages to load incompletely.")
 }
-  
+
 const { profileComplete, userProfile } = storeToRefs(useMainStore)
 
 watch(
   () => profileComplete?.value, (newVal) => {
     if (userProfile?.value && !newVal) {
-      // Redirect to the welcome page if profile is incomplete
       navigateTo('/welcome');
     }
   },
   { immediate: true }
 )
 
-// When trying to do federated sign in using a middleware (like we do for sign out), Cognito's callback would only
-// execute client-side (after the middleware had already redirected to the new page) causing it to overwrite the 
-// previous redirect. This issue was supposed to be addressed by https://github.com/aws-amplify/amplify-js/pull/3588, 
-// but attempting to handle dynamic routing after amplify federated sign in via a custom state hook as suggested 
-// here: https://github.com/aws-amplify/amplify-js/issues/3125#issuecomment-814265328 did not work
 onBeforeMount(() => {
   const signInRedirectCookie = useCookie('sign-in-redirect-url');
   if (signInRedirectCookie.value) {
@@ -491,18 +439,9 @@ onBeforeMount(() => {
 
 <style lang="scss" scoped>
 @import 'sparc-design-system-components-2/src/assets/_variables.scss';
+
 .page-data {
   background-color: #06060f;
-}
-.secondary-background {
-  background-color: $background;
-}
-
-hr {
-  margin: 0;
-  padding: 0;
-  border-top: none;
-  border-color: $lineColor1;
 }
 
 /* ── Hero ── */
@@ -512,20 +451,17 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  @media (max-width: 768px) { flex-direction: column; }
 }
 
 .hero-inner {
   position: relative;
   flex: 1;
   min-width: 0;
-  max-width: 800px;
+  max-width: 770px;
 }
 
 .hero-image-wrap {
-  opacity: 0.7;
   flex-shrink: 0;
   mask-image:
     linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%),
@@ -535,9 +471,7 @@ hr {
     linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%),
     linear-gradient(to right,  transparent 0%, black 18%, black 100%);
   -webkit-mask-composite: source-in;
-  @media (max-width: 1024px) {
-    width: 320px;
-  }
+  @media (max-width: 1024px) { width: 320px; }
   @media (max-width: 768px) {
     width: 100%;
     mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
@@ -552,7 +486,7 @@ hr {
 }
 
 .hero-eyebrow {
-  font-size: 11px;
+  font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #b44fff;
@@ -566,19 +500,15 @@ hr {
   line-height: 1.1;
   color: #fff;
   margin-bottom: 0.9rem;
-  @media (max-width: 768px) {
-    font-size: 30px;
-  }
+  @media (max-width: 768px) { font-size: 30px; }
 }
 
 .hero-sub {
-  font-size: 14px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.75;
   margin-bottom: 1.75rem;
-  :deep(p) {
-    margin: 0;
-  }
+  :deep(p) { margin: 0; }
 }
 
 .hero-btns {
@@ -593,16 +523,13 @@ hr {
   gap: 6px;
   background: #8300bf;
   color: #fff;
-  font-size: 13px;
+  font-size: 1rem;
   border-radius: 8px;
   padding: 9px 18px;
   text-decoration: none;
   font-weight: 500;
   transition: background 0.15s;
-  &:hover {
-    background: #9a00de;
-    color: #fff;
-  }
+  &:hover { background: #9a00de; color: #fff; }
 }
 
 .hero-btn-ghost {
@@ -611,184 +538,18 @@ hr {
   gap: 6px;
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 13px;
+  font-size: 1rem;
   border-radius: 8px;
   padding: 9px 18px;
   border: 0.5px solid rgba(255, 255, 255, 0.18);
   text-decoration: none;
   transition: background 0.15s, color 0.15s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
-  }
+  &:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
 }
 
-/* ── Discover by facet ── */
-.discover-section {
-  background: #06060f;
-  padding: 4rem 2rem;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  gap: 3rem;
-  align-items: flex-start;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-}
-
-.discover-header {
-  width: 280px;
-  flex-shrink: 0;
-  @media (max-width: 900px) {
-    width: 100%;
-  }
-}
-
-.facet-tabs {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 1.25rem;
-}
-
-.facet-tab-pill {
-  display: inline-block;
-  width: fit-content;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 16px;
-  border-radius: 20px;
-  border: 0.5px solid rgba(255, 255, 255, 0.14);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.45);
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-  text-align: left;
-  &:hover {
-    color: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-  &.active {
-    background: rgba(131, 0, 191, 0.25);
-    color: #d080ff;
-    border-color: rgba(131, 0, 191, 0.5);
-  }
-}
-
-.facet-charts-container {
-  flex: 1;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.facet-chart {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.facet-chart--hidden {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.facet-bar-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 4px 6px;
-  transition: background 0.12s;
-  &:hover {
-    background: rgba(255, 255, 255, 0.04);
-    .facet-bar-fill {
-      opacity: 0.9;
-    }
-  }
-  &:focus-visible {
-    outline: 1px solid rgba(131, 0, 191, 0.7);
-  }
-}
-
-.facet-bar-label {
-  width: 150px;
-  flex-shrink: 0;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.65);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  @media (max-width: 600px) {
-    width: 110px;
-    font-size: 11px;
-  }
-}
-
-.facet-bar-track {
-  flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.facet-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #5500aa, #8300bf);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-.facet-bar-count {
-  width: 48px;
-  text-align: right;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
-  flex-shrink: 0;
-}
-
-
-/* ── Map section ── */
-.map-section {
-  background: #06060f;
-  padding: 4rem 2rem;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
-}
-
-.map-layout {
-  display: flex;
-  gap: 2.5rem;
-  align-items: flex-start;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
-
-.map-card {
-  flex: 1;
-  min-width: 0;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  overflow: hidden;
-  background: #06060f;
-}
-
-.map-text {
-  width: 260px;
-  flex-shrink: 0;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-}
-
+/* ── Shared section text ── */
 .section-kicker {
-  font-size: 11px;
+  font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #b44fff;
@@ -802,16 +563,35 @@ hr {
   line-height: 1.1;
   color: #fff;
   margin-bottom: 0.9rem;
-  @media (max-width: 768px) {
-    font-size: 30px;
-  }
+  @media (max-width: 768px) { font-size: 30px; }
 }
 
 .section-sub {
-  font-size: 14px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.75;
   margin-bottom: 0;
+}
+
+/* ── Map section ── */
+.map-section {
+  background: #06060f;
+  padding: 2rem;
+}
+
+.map-header {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  max-width: 770px;
+  margin-left: auto;
+  @media (max-width: 768px) { text-align: left; }
+}
+
+.map-card {
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #06060f;
 }
 
 .map-species-overlay {
@@ -825,7 +605,7 @@ hr {
 }
 
 .species-tab {
-  font-size: 12px;
+  font-size: 1rem;
   font-weight: 500;
   padding: 5px 16px;
   border-radius: 6px;
@@ -837,10 +617,7 @@ hr {
   font-family: inherit;
   transition: all 0.15s;
   text-align: left;
-  &:hover {
-    color: rgba(255, 255, 255, 0.8);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
+  &:hover { color: rgba(255, 255, 255, 0.8); border-color: rgba(255, 255, 255, 0.3); }
   &.active {
     background: rgba(131, 0, 191, 0.25);
     color: #d080ff;
@@ -855,12 +632,8 @@ hr {
   position: relative;
   aspect-ratio: 16 / 7;
   overflow: hidden;
-  @media (max-width: 768px) {
-    aspect-ratio: 4 / 3;
-  }
-  &:hover .map-open-hint {
-    opacity: 1;
-  }
+  @media (max-width: 768px) { aspect-ratio: 4 / 3; }
+  &:hover .map-open-hint { opacity: 1; }
 }
 
 .map-img {
@@ -873,7 +646,6 @@ hr {
   mix-blend-mode: screen;
 }
 
-
 .map-open-hint {
   position: absolute;
   bottom: 12px;
@@ -882,7 +654,7 @@ hr {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 500;
   background: #8300bf;
   color: #fff;
@@ -893,33 +665,130 @@ hr {
   pointer-events: none;
 }
 
+/* ── Discover by facet ── */
+.discover-section {
+  background: #06060f;
+  padding: 2rem;
+}
+
+.discover-header {
+  margin-bottom: 1.25rem;
+  max-width: 770px;
+}
+
+.facet-tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.facet-tab-pill {
+  display: inline-block;
+  width: fit-content;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 0.5px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  text-align: left;
+  &:hover { color: rgba(255, 255, 255, 0.8); border-color: rgba(255, 255, 255, 0.3); }
+  &.active {
+    background: rgba(131, 0, 191, 0.25);
+    color: #d080ff;
+    border-color: rgba(131, 0, 191, 0.5);
+  }
+}
+
+.facet-charts-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.facet-chart {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  row-gap: 3px;
+  column-gap: 12px;
+}
+
+.facet-chart--hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.facet-bar-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 2px 4px;
+  transition: background 0.12s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+    .facet-bar-fill { opacity: 0.85; }
+  }
+  &:focus-visible { outline: 1px solid rgba(131, 0, 191, 0.7); }
+}
+
+.facet-bar-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+}
+
+.facet-bar-track {
+  flex: 1;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.facet-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5500aa, #8300bf);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.facet-bar-count {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
 /* ── Explore the tools ── */
 .tools-section {
   background: #06060f;
-  padding: 4rem 2rem;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+  padding: 2rem;
 }
 
-.tools-layout {
-  display: flex;
-  gap: 2.5rem;
-  align-items: flex-start;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+.tools-header {
+  text-align: right;
+  margin-bottom: 1.5rem;
+  max-width: 770px;
+  margin-left: auto;
+  @media (max-width: 768px) { text-align: left; }
 }
 
 .tools-left {
-  flex: 1;
-  min-width: 0;
-}
-
-.tools-text {
-  width: 260px;
-  flex-shrink: 0;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .tools-nav {
@@ -939,15 +808,13 @@ hr {
   border: none;
   border-bottom: 2px solid transparent;
   color: rgba(255, 255, 255, 0.4);
-  font-size: 13px;
+  font-size: 1rem;
   font-family: inherit;
   font-weight: 400;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
   margin-bottom: -1px;
-  &:hover {
-    color: rgba(255, 255, 255, 0.75);
-  }
+  &:hover { color: rgba(255, 255, 255, 0.75); }
   &.active {
     color: #fff;
     border-bottom-color: #8300bf;
@@ -964,9 +831,7 @@ hr {
   svg { width: 16px; height: 16px; }
 }
 
-.tool-tab-label {
-  line-height: 1;
-}
+.tool-tab-label { line-height: 1; }
 
 .tools-previews {
   display: grid;
@@ -981,9 +846,7 @@ hr {
   border-radius: 12px;
   overflow: hidden;
   background: #0a0a1e;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  @media (max-width: 768px) { flex-direction: column; }
 }
 
 .tools-preview--hidden {
@@ -995,7 +858,6 @@ hr {
   flex: 1;
   min-height: 300px;
   background: #08081e;
-
   img, video {
     width: 100%;
     height: 100%;
@@ -1019,10 +881,7 @@ hr {
     border-right: none;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
   }
-
-  .section-kicker {
-    margin-bottom: 0.4rem;
-  }
+  .section-kicker { margin-bottom: 0.4rem; }
 }
 
 .preview-heading {
@@ -1034,7 +893,7 @@ hr {
 }
 
 .preview-desc {
-  font-size: 13px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.65;
   margin: 0 0 1.25rem;
@@ -1044,7 +903,7 @@ hr {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 500;
   padding: 9px 18px;
   border-radius: 8px;
@@ -1053,27 +912,24 @@ hr {
   color: #fff;
   text-decoration: none;
   transition: background 0.15s;
-  &:hover {
-    background: #9a00de;
-    color: #fff;
-  }
+  &:hover { background: #9a00de; color: #fff; }
 }
 
 /* ── Find your path ── */
 .path-section {
   background: #06060f;
-  padding: 4rem 2rem 5rem;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.07);
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .path-header {
-  max-width: 1200px;
-  margin: 0 auto 2.5rem;
+  max-width: 770px;
+  margin-bottom: 2.5rem;
 }
 
 .path-cards {
-  max-width: 1200px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
@@ -1102,7 +958,7 @@ hr {
 }
 
 .path-card-kicker {
-  font-size: 11px;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1118,7 +974,7 @@ hr {
 }
 
 .path-card-desc {
-  font-size: 13px;
+  font-size: 1rem;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.55);
   margin: 0 0 1.5rem;
@@ -1129,7 +985,7 @@ hr {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 500;
   padding: 9px 18px;
   border-radius: 8px;
@@ -1139,10 +995,6 @@ hr {
   text-decoration: none;
   transition: background 0.15s;
   margin-top: auto;
-  &:hover {
-    background: #9a00de;
-    color: #fff;
-  }
+  &:hover { background: #9a00de; color: #fff; }
 }
-
 </style>
