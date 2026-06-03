@@ -1,6 +1,6 @@
 <template>
   <div class="sparc-header">
-    <nav class="nav">
+    <nav class="nav" :class="{ 'nav--scrolled': scrolled }">
       <!-- Logo -->
       <nuxt-link :to="{ name: 'index' }" class="nav-logo" aria-label="SPARC">
         <img src="/sparc-logo-primary.svg" alt="SPARC" height="auto" />
@@ -207,6 +207,7 @@ export default {
     menuOpen: false,
     showLoginDialog: false,
     activeDropdown: null,
+    scrolled: false,
   }),
   computed: {
     ...mapState(useMainStore, ['userProfile', 'profileComplete', 'userToken', 'username']),
@@ -224,9 +225,11 @@ export default {
   },
   mounted() {
     document.addEventListener('click', this.handleDocumentClick)
+    window.addEventListener('scroll', this.onScroll, { passive: true })
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleDocumentClick)
+    window.removeEventListener('scroll', this.onScroll)
   },
   watch: {
     profileComplete: {
@@ -249,6 +252,9 @@ export default {
   },
   methods: {
     ...mapActions(useMainStore, ['updateDisabledScrolling', 'logout']),
+    onScroll() {
+      this.scrolled = window.scrollY > 0
+    },
     handleDocumentClick(e) {
       if (!e.target.closest('.nav-item') && !e.target.closest('.nav-user')) {
         this.activeDropdown = null
@@ -313,6 +319,11 @@ verifyProfileComplete() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+  &.nav--scrolled {
+    border-bottom-color: #E4E7ED;
+  }
 }
 
 .nav-logo {
