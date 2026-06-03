@@ -193,10 +193,9 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Find your path section -->
-  <div class="path-section">
+    <!-- Find your path section -->
+    <div class="path-section">
     <div class="path-header">
       <div class="section-kicker">Get started</div>
       <h2 class="section-h2">Find your path</h2>
@@ -253,6 +252,8 @@
       </div>
 
     </div>
+  </div>
+
   </div>
 
 </template>
@@ -472,14 +473,12 @@ onBeforeMount(() => {
 
 .page-data {
   background-color: #0c0c24;
-  max-width: 1280px;
-  margin: 0 auto;
 }
 
 /* ── Hero ── */
 .home-hero {
   background: #0c0c24;
-  padding: 4rem 2rem 3rem;
+  padding: 4rem max(2rem, calc((100% - 1280px) / 2)) 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -609,7 +608,7 @@ onBeforeMount(() => {
 /* ── Map section ── */
 .map-section {
   background: #0c0c24;
-  padding: 2rem;
+  padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
 .map-header {
@@ -701,7 +700,7 @@ onBeforeMount(() => {
 /* ── Discover by facet ── */
 .discover-section {
   background: #0c0c24;
-  padding: 2rem;
+  padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
 .discover-header {
@@ -808,7 +807,7 @@ onBeforeMount(() => {
 /* ── Explore the tools ── */
 .tools-section {
   background: #0c0c24;
-  padding: 2rem;
+  padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
 .tools-header {
@@ -950,12 +949,7 @@ onBeforeMount(() => {
 /* ── Find your path ── */
 .path-section {
   background: #0c0c24;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 2rem max(2rem, calc((100% - 1280px) / 2)) 4rem;
 }
 
 .path-header {
