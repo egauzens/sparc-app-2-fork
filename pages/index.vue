@@ -624,7 +624,7 @@ onBeforeMount(() => {
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   overflow: hidden;
-  background: #0c0c24;
+  background: #08081e;
 }
 
 .map-species-overlay {
@@ -643,7 +643,7 @@ onBeforeMount(() => {
   padding: 5px 16px;
   border-radius: 6px;
   border: 0.5px solid rgba(255, 255, 255, 0.14);
-  background: rgba(0, 0, 0, 0.35);
+  background: #08081e;
   backdrop-filter: blur(4px);
   color: rgba(255, 255, 255, 0.45);
   cursor: pointer;
