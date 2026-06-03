@@ -442,6 +442,8 @@ onBeforeMount(() => {
 
 .page-data {
   background-color: #0c0c24;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 /* ── Hero ── */
@@ -462,6 +464,7 @@ onBeforeMount(() => {
 }
 
 .hero-image-wrap {
+  opacity: .7;
   flex-shrink: 0;
   mask-image:
     linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%),
@@ -918,6 +921,8 @@ onBeforeMount(() => {
 /* ── Find your path ── */
 .path-section {
   background: #0c0c24;
+  max-width: 1280px;
+  margin: 0 auto;
   padding-top: 2rem;
   padding-bottom: 4rem;
   padding-left: 2rem;
