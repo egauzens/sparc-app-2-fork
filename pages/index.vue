@@ -67,7 +67,7 @@
     </div>
 
     <!-- Discover by facet section -->
-    <div class="discover-section">
+    <div class="discover-section" ref="discoverSectionRef">
       <div class="discover-header">
         <div class="section-kicker">Explore the catalog</div>
         <h2 class="section-h2">Discover by facet</h2>
@@ -90,7 +90,7 @@
           :class="{ 'facet-chart--hidden': activeFacetTab !== tab.id }"
         >
           <div
-            v-for="item in facetDataByTab[tab.id]"
+            v-for="(item, index) in facetDataByTab[tab.id]"
             :key="item.label"
             class="facet-bar-row"
             role="button"
@@ -100,7 +100,13 @@
           >
             <div class="facet-bar-label">{{ item.label }}</div>
             <div class="facet-bar-track">
-              <div class="facet-bar-fill" :style="{ width: item.pct + '%' }">
+              <div
+                class="facet-bar-fill"
+                :style="{
+                  width: chartAnimated ? item.pct + '%' : '0%',
+                  transition: chartAnimated ? `width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.05}s` : 'none'
+                }"
+              >
                 <span class="facet-bar-count">{{ item.count.toLocaleString() }}</span>
               </div>
             </div>
@@ -357,6 +363,30 @@ const facetTabConfig = [
 ]
 
 const activeFacetTab = ref('modality')
+const chartAnimated = ref(false)
+const discoverSectionRef = ref(null)
+
+onMounted(() => {
+  if (!discoverSectionRef.value) return
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        chartAnimated.value = true
+        observer.disconnect()
+      }
+    },
+    { threshold: 0.15 }
+  )
+  observer.observe(discoverSectionRef.value)
+})
+
+watch(activeFacetTab, async () => {
+  chartAnimated.value = false
+  await nextTick()
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    chartAnimated.value = true
+  }))
+})
 
 function buildFacetItems(raw) {
   const items = Object.entries(raw || {})
@@ -762,7 +792,6 @@ onBeforeMount(() => {
   height: 100%;
   background: linear-gradient(90deg, #5500aa, #8300bf);
   border-radius: 6px;
-  transition: width 0.3s ease;
   display: flex;
   align-items: center;
   overflow: visible;
