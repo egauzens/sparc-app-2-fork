@@ -267,7 +267,7 @@ const config = useRuntimeConfig()
 const { $contentfulClient, $axios, $algoliaClient } = useNuxtApp()
 useHead({
   title: 'SPARC Portal',
-  bodyAttrs: { style: 'background: #06060f' },
+  bodyAttrs: { style: 'background: #0c0c24' },
   meta: [
     {
       hid: 'description',
@@ -441,12 +441,12 @@ onBeforeMount(() => {
 @import 'sparc-design-system-components-2/src/assets/_variables.scss';
 
 .page-data {
-  background-color: #06060f;
+  background-color: #0c0c24;
 }
 
 /* ── Hero ── */
 .home-hero {
-  background: #06060f;
+  background: #0c0c24;
   padding: 4rem 2rem 3rem;
   display: flex;
   align-items: center;
@@ -575,7 +575,7 @@ onBeforeMount(() => {
 
 /* ── Map section ── */
 .map-section {
-  background: #06060f;
+  background: #0c0c24;
   padding: 2rem;
 }
 
@@ -591,7 +591,7 @@ onBeforeMount(() => {
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   overflow: hidden;
-  background: #06060f;
+  background: #0c0c24;
 }
 
 .map-species-overlay {
@@ -667,7 +667,7 @@ onBeforeMount(() => {
 
 /* ── Discover by facet ── */
 .discover-section {
-  background: #06060f;
+  background: #0c0c24;
   padding: 2rem;
 }
 
@@ -775,7 +775,7 @@ onBeforeMount(() => {
 
 /* ── Explore the tools ── */
 .tools-section {
-  background: #06060f;
+  background: #0c0c24;
   padding: 2rem;
 }
 
@@ -917,7 +917,7 @@ onBeforeMount(() => {
 
 /* ── Find your path ── */
 .path-section {
-  background: #06060f;
+  background: #0c0c24;
   padding-top: 2rem;
   padding-bottom: 4rem;
   padding-left: 2rem;

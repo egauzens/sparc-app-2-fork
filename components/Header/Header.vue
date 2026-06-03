@@ -307,7 +307,7 @@ verifyProfileComplete() {
 
 /* ── Main nav bar ── */
 .nav {
-  background: #F8FAFF;
+  background: #fff;
   height: 80px;
   padding: 0 1.5rem;
   display: flex;
