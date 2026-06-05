@@ -206,51 +206,59 @@
     <div class="path-cards">
 
       <div class="path-card">
-        <div class="path-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-          </svg>
+        <div class="path-card-kicker-group">
+          <div class="path-card-kicker">Researchers</div>
+          <div class="path-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </div>
         </div>
-        <div class="path-card-kicker">Researchers</div>
         <h3 class="path-card-heading">Find data &amp; models</h3>
         <p class="path-card-desc">Search hundreds of open datasets, models, and simulations spanning the autonomic nervous system. Filter by organ, species, modality, and more.</p>
-        <nuxt-link to="/data?type=dataset" class="path-card-btn">Browse datasets</nuxt-link>
+        <nuxt-link to="/data?type=dataset" class="path-card-btn">Browse datasets <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
 
       <div class="path-card">
-        <div class="path-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-            <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15m-6.8-1.5v6m0 0H9m4 0h4"/><path d="M3 12h18"/>
-          </svg>
+        <div class="path-card-kicker-group">
+          <div class="path-card-kicker">Analysts</div>
+          <div class="path-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15m-6.8-1.5v6m0 0H9m4 0h4"/><path d="M3 12h18"/>
+            </svg>
+          </div>
         </div>
-        <div class="path-card-kicker">Analysts</div>
         <h3 class="path-card-heading">Use SPARC data</h3>
         <p class="path-card-desc">Programmatic access to datasets, models, metadata, and connectivity knowledge via APIs.</p>
-        <a href="https://docs.sparc.science/docs/sparc-apis-and-open-access-code" target="_blank" rel="noopener" class="path-card-btn">Explore Docs</a>
+        <a href="https://docs.sparc.science/docs/sparc-apis-and-open-access-code" target="_blank" rel="noopener" class="path-card-btn">Explore Docs <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
       <div class="path-card">
-        <div class="path-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-            <path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
-          </svg>
+        <div class="path-card-kicker-group">
+          <div class="path-card-kicker">Contributors</div>
+          <div class="path-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+            </svg>
+          </div>
         </div>
-        <div class="path-card-kicker">Contributors</div>
         <h3 class="path-card-heading">Share your work</h3>
         <p class="path-card-desc">Submit datasets, protocols, and tools to the SPARC repository. Reach a global community of autonomic nervous system researchers and maximize the impact of your science.</p>
-        <nuxt-link to="/share-data" class="path-card-btn">Submit to SPARC</nuxt-link>
+        <nuxt-link to="/share-data" class="path-card-btn">Submit to SPARC <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
 
       <div class="path-card">
-        <div class="path-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-            <path d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6V7.5Z"/>
-          </svg>
+        <div class="path-card-kicker-group">
+          <div class="path-card-kicker">Community</div>
+          <div class="path-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+              <path d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6V7.5Z"/>
+            </svg>
+          </div>
         </div>
-        <div class="path-card-kicker">Community</div>
         <h3 class="path-card-heading">Latest news</h3>
         <p class="path-card-desc">Stay up to date with the latest from the SPARC program — new datasets, tool launches, consortium updates, funding opportunities, and community events.</p>
-        <nuxt-link to="/news-and-events" class="path-card-btn">All news</nuxt-link>
+        <nuxt-link to="/news-and-events" class="path-card-btn">All news <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
 
     </div>
@@ -992,7 +1000,11 @@ onBeforeMount(() => {
 
 .path-card-icon {
   color: #8300bf;
-  margin-bottom: 1.25rem;
+}
+
+.path-card-kicker-group {
+  display: flex;
+  justify-content: space-between;
 }
 
 .path-card-kicker {
@@ -1001,7 +1013,6 @@ onBeforeMount(() => {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #8300bf;
-  margin-bottom: 0.5rem;
 }
 
 .path-card-heading {
