@@ -41,28 +41,30 @@
         <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
       </div>
       <div class="map-card">
-        <nuxt-link :to="currentMapSpecies.href" class="map-image-link" :aria-label="`Open ${currentMapSpecies.label} flatmap`">
-          <img
-            :src="currentMapSpecies.image"
-            :alt="`${currentMapSpecies.label} anatomical connectivity map`"
-            class="map-img"
-          />
-          <div class="map-open-hint">
-            Click to open full map
-            <svg viewBox="0 0 12 12" width="11" height="11" fill="none">
-              <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="map-species-overlay" @click.prevent>
+        <div class="map-image-wrapper">
+          <nuxt-link :to="currentMapSpecies.href" class="map-image-link" :aria-label="`Open ${currentMapSpecies.label} flatmap`">
+            <img
+              :src="currentMapSpecies.image"
+              :alt="`${currentMapSpecies.label} anatomical connectivity map`"
+              class="map-img"
+            />
+            <div class="map-open-hint">
+              Click to open full map
+              <svg viewBox="0 0 12 12" width="11" height="11" fill="none">
+                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </nuxt-link>
+          <div class="map-species-overlay">
             <button
               v-for="s in mapSpecies"
               :key="s.id"
               class="species-tab"
-              :class="{ active: selectedSpecies === s.id }"
-              @click.prevent="selectedSpecies = s.id"
+              :class="{ active: currentMapSpecies.id === s.id }"
+              @click="selectedSpecies = s.id"
             >{{ s.label }}</button>
           </div>
-        </nuxt-link>
+        </div>
       </div>
     </div>
 
@@ -260,10 +262,12 @@
 
 <script setup>
 import { failMessage } from '@/utils/notification-messages'
-import thumbHuman from '~/assets/flatmap-thumbnails/human.png'
-import thumbRat   from '~/assets/flatmap-thumbnails/rat.png'
-import thumbPig   from '~/assets/flatmap-thumbnails/pig.png'
-import thumbMouse from '~/assets/flatmap-thumbnails/mouse.png'
+import thumbFemale from '~/assets/flatmap-thumbnails/female-map.png'
+import thumbMale from '~/assets/flatmap-thumbnails/male-map.png'
+import thumbRat from '~/assets/flatmap-thumbnails/rat-map.png'
+import thumbPig from '~/assets/flatmap-thumbnails/pig-map.png'
+import thumbMouse from '~/assets/flatmap-thumbnails/mouse-map.png'
+import thumbCat from '~/assets/flatmap-thumbnails/cat-map.png'
 import { parseMarkdown } from '@/utils/formattingUtils.js'
 import getHomepageFields from '@/utils/homepageFields'
 import { useMainStore } from '../store/index.js'
@@ -434,10 +438,12 @@ const toolTabs = [
 const activeToolTab = ref('gallery')
 
 const mapSpecies = [
-  { id: 'human', label: 'Human', href: '/apps/maps?type=ac&taxon=NCBITaxon:9606',  accent: '#7733bb', image: thumbHuman },
-  { id: 'rat',   label: 'Rat',   href: '/apps/maps?type=ac&taxon=NCBITaxon:10114', accent: '#2a9a6a', image: thumbRat },
-  { id: 'pig',   label: 'Pig',   href: '/apps/maps?type=ac&taxon=NCBITaxon:9823',  accent: '#4466cc', image: thumbPig },
-  { id: 'mouse', label: 'Mouse', href: '/apps/maps?type=ac&taxon=NCBITaxon:10090', accent: '#cc6644', image: thumbMouse },
+  { id: 'female', label: 'Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
+  { id: 'male', label: 'Male', href: '/apps/maps?id=43c6fc73',  accent: '#2a9a6a', image: thumbMale },
+  { id: 'rat', label: 'Rat', href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
+  { id: 'mouse', label: 'Mouse', href: '/apps/maps?id=f2a6f36e', accent: '#cc6644', image: thumbMouse },
+  { id: 'pig', label: 'Pig',   href: '/apps/maps?id=7e71390a',  accent: '#4466cc', image: thumbPig },
+  { id: 'cat', label: 'Cat', href: '/apps/maps?id=f2251969', accent: '#ff6b35', image: thumbCat },
 ]
 const selectedSpecies = ref('human')
 const currentMapSpecies = computed(() => mapSpecies.find(s => s.id === selectedSpecies.value) ?? mapSpecies[0])
@@ -624,6 +630,10 @@ onBeforeMount(() => {
   border-radius: 12px;
   overflow: hidden;
   background: #08081e;
+}
+
+.map-image-wrapper {
+  position: relative;
 }
 
 .map-species-overlay {
