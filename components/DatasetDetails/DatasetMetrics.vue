@@ -3,42 +3,55 @@
     <div class="heading2 mb-8">
       Metrics
     </div>
-    <div class="body1" v-loading="loadingMetrics">
-      <div>
-        Citations: <span class="label4">{{ citations }}</span>
-      </div>
-      <div>
-        Downloads: <span class="label4">{{ fullDownloads }}</span>
-      </div>
-      <div v-if="protocols?.length > 0">
-        Protocols:
-        <sparc-tooltip placement="left-center">
-          <template #item>
-            <svgo-icon-help class="help-icon"/>
-          </template>
-          <template #data>
-            Number of views and forks are only available for protocols hosted on <a href="https://protocols.io" target="_blank">Protocols.io</a>
-          </template>
-        </sparc-tooltip>
-      </div>
-      <div v-for="doi in protocols" :key="doi">
-        <div class="ml-32">
-          Protocol Link: <a :href="'https://doi.org/' + doi" target="_blank">https://doi.org/{{ doi }}</a>
+    <div class="body1 row" v-loading="loadingMetrics">
+      <div class="col">
+        <div>
+          Citations: <span class="label4">{{ citations }}</span>
         </div>
-        <template v-if="isProtocolsIo(doi)">
+        <div>
+          Downloads: <span class="label4">{{ fullDownloads }}</span>
+        </div>
+        <div v-if="protocols?.length > 0">
+          Protocols:
+          <sparc-tooltip placement="left-center">
+            <template #item>
+              <svgo-icon-help class="help-icon"/>
+            </template>
+            <template #data>
+              Number of views and forks are only available for protocols hosted on <a href="https://protocols.io" target="_blank">Protocols.io</a>
+            </template>
+          </sparc-tooltip>
+        </div>
+        <div v-for="doi in protocols" :key="doi">
           <div class="ml-32">
-            Protocol Views: <span class="label4">{{ getProtocolViews(doi) }}</span>
+            Protocol Link: <a :href="'https://doi.org/' + doi" target="_blank">https://doi.org/{{ doi }}</a>
           </div>
-          <div class="ml-32">
-            Number of Protocol Forks:
-          </div>
-          <div class="ml-64">
-            Private: <span class="label4">{{ getProtocolPrivateForks(doi) }}</span>
-          </div>
-          <div class="ml-64">
-            Public: <span class="label4">{{ getProtocolPublicForks(doi) }}</span>
-          </div>
-        </template>
+          <template v-if="isProtocolsIo(doi)">
+            <div class="ml-32">
+              Protocol Views: <span class="label4">{{ getProtocolViews(doi) }}</span>
+            </div>
+            <div class="ml-32">
+              Number of Protocol Forks:
+            </div>
+            <div class="ml-64">
+              Private: <span class="label4">{{ getProtocolPrivateForks(doi) }}</span>
+            </div>
+            <div class="ml-64">
+              Public: <span class="label4">{{ getProtocolPublicForks(doi) }}</span>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div v-if="scholarData" class="col ml-16">
+        <div>
+          Dataset Index: <span class="label4">{{ scholarData.latestDIndex?.score ?? 'N/A' }}</span>
+        </div>
+        <div>
+          Mentions: <span class="label4">{{ scholarData.totalMentions ?? 'N/A' }}</span>
+        </div>
+        <div v-if="scholarData.fujiScore">
+          FAIR Score: <span class="label4">{{ scholarData.fujiScore.score ?? 'N/A' }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -50,14 +63,16 @@ import { pathOr } from 'ramda'
 const PROTOCOLS_IO_PREFIX = '10.17504/'
 
 const protocolsMap = ref({})
+const scholarData = ref(null)
 const loadingMetrics = ref(true)
 
 const props = defineProps({
   protocols: Array,
   citations: Number,
-  fullDownloads: Number
+  fullDownloads: Number,
+  datasetDoi: String
 })
-const { protocols } = toRefs(props)
+const { protocols, datasetDoi } = toRefs(props)
 
 const config = useRuntimeConfig()
 const { $axios } = useNuxtApp()
@@ -104,7 +119,23 @@ async function fetchProtocolsWithLimit(dois, concurrency = 5) {
   return results
 }
 
-protocolsMap.value = await fetchProtocolsWithLimit(protocols?.value, 5)
+async function fetchScholarData(doi) {
+  if (!doi) return null
+  try {
+    const { data } = await $axios.get(
+      `/api/scholardata?doi=${encodeURIComponent(doi)}`
+    )
+    return data
+  } catch {
+    return null
+  }
+}
+
+[protocolsMap.value, scholarData.value] = await Promise.all([
+  fetchProtocolsWithLimit(protocols?.value, 5),
+  fetchScholarData(datasetDoi?.value)
+])
+
 loadingMetrics.value = false
 
 const getProtocolViews = (doi) =>
@@ -123,5 +154,13 @@ const getProtocolPublicForks = (doi) =>
   color: $purple;
   height: 1.5rem;
   width: 1.5rem;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.col {
+  display: flex;
+  flex-direction: column;
 }
 </style>
