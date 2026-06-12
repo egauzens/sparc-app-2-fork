@@ -3,55 +3,67 @@
     <div class="heading2 mb-8">
       Metrics
     </div>
-    <div class="body1 row" v-loading="loadingMetrics">
-      <div class="col">
+    <div class="body1" v-loading="loadingMetrics">
+      <div v-if="scholarData">
         <div>
-          Citations: <span class="label4">{{ citations }}</span>
+          Dataset Index: <span class="label4">{{ scholarData.latestDIndex?.score ?? 'N/A' }}</span>
         </div>
-        <div>
-          Downloads: <span class="label4">{{ fullDownloads }}</span>
-        </div>
-        <div v-if="protocols?.length > 0">
-          Protocols:
-          <sparc-tooltip placement="left-center">
+        <div v-if="scholarData.totalMentions !== undefined">
+          Mentions: <span class="label4">{{ scholarData.totalMentions }}</span><sparc-tooltip placement="left-center">
             <template #item>
               <svgo-icon-help class="help-icon"/>
             </template>
             <template #data>
-              Number of views and forks are only available for protocols hosted on <a href="https://protocols.io" target="_blank">Protocols.io</a>
+              As calculated by <a href="https://docs.scholardata.io/data-collection/mentions" target="_blank">Scholordata.io</a>
             </template>
           </sparc-tooltip>
         </div>
-        <div v-for="doi in protocols" :key="doi">
-          <div class="ml-32">
-            Protocol Link: <a :href="'https://doi.org/' + doi" target="_blank">https://doi.org/{{ doi }}</a>
-          </div>
-          <template v-if="isProtocolsIo(doi)">
-            <div class="ml-32">
-              Protocol Views: <span class="label4">{{ getProtocolViews(doi) }}</span>
-            </div>
-            <div class="ml-32">
-              Number of Protocol Forks:
-            </div>
-            <div class="ml-64">
-              Private: <span class="label4">{{ getProtocolPrivateForks(doi) }}</span>
-            </div>
-            <div class="ml-64">
-              Public: <span class="label4">{{ getProtocolPublicForks(doi) }}</span>
-            </div>
-          </template>
+        <div v-if="scholarData.fujiScore">
+          FAIR Score: <span class="label4">{{ scholarData.fujiScore.score }}</span><sparc-tooltip placement="left-center">
+            <template #item>
+              <svgo-icon-help class="help-icon"/>
+            </template>
+            <template #data>
+              As calculated by <a href="https://docs.scholardata.io/data-collection/fair-scores" target="_blank">Scholordata.io</a>
+            </template>
+          </sparc-tooltip>
         </div>
       </div>
-      <div v-if="scholarData" class="col ml-16">
-        <div>
-          Dataset Index: <span class="label4">{{ scholarData.latestDIndex?.score ?? 'N/A' }}</span>
+      <div>
+        Citations: <span class="label4">{{ citations }}</span>
+      </div>
+      <div>
+        Downloads: <span class="label4">{{ fullDownloads }}</span>
+      </div>
+      <div v-if="protocols?.length > 0">
+        Protocols:
+        <sparc-tooltip placement="left-center">
+          <template #item>
+            <svgo-icon-help class="help-icon"/>
+          </template>
+          <template #data>
+            Number of views and forks are only available for protocols hosted on <a href="https://protocols.io" target="_blank">Protocols.io</a>
+          </template>
+        </sparc-tooltip>
+      </div>
+      <div v-for="doi in protocols" :key="doi">
+        <div class="ml-32">
+          Protocol Link: <a :href="'https://doi.org/' + doi" target="_blank">https://doi.org/{{ doi }}</a>
         </div>
-        <div>
-          Mentions: <span class="label4">{{ scholarData.totalMentions ?? 'N/A' }}</span>
-        </div>
-        <div v-if="scholarData.fujiScore">
-          FAIR Score: <span class="label4">{{ scholarData.fujiScore.score ?? 'N/A' }}</span>
-        </div>
+        <template v-if="isProtocolsIo(doi)">
+          <div class="ml-32">
+            Protocol Views: <span class="label4">{{ getProtocolViews(doi) }}</span>
+          </div>
+          <div class="ml-32">
+            Number of Protocol Forks:
+          </div>
+          <div class="ml-64">
+            Private: <span class="label4">{{ getProtocolPrivateForks(doi) }}</span>
+          </div>
+          <div class="ml-64">
+            Public: <span class="label4">{{ getProtocolPublicForks(doi) }}</span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -154,13 +166,5 @@ const getProtocolPublicForks = (doi) =>
   color: $purple;
   height: 1.5rem;
   width: 1.5rem;
-}
-.row {
-  display: flex;
-  flex-direction: row;
-}
-.col {
-  display: flex;
-  flex-direction: column;
 }
 </style>
