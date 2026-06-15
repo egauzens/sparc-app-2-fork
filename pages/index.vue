@@ -138,58 +138,27 @@
           </button>
         </div>
         <div class="tools-previews">
-          <!-- Gallery -->
-          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'gallery' }">
-            <div class="preview-media"></div>
-            <div class="preview-text">
-              <div class="section-kicker">Image gallery</div>
-              <h3 class="preview-heading">Curated imagery</h3>
-              <p class="preview-desc">Featured microscopy and atlas imagery from across SPARC datasets — confocal, smFISH, tracing, and more. Curated by SPARC editors. Each image links to its source dataset. Filter by organ, species, or modality.</p>
-              <nuxt-link to="/apps" class="preview-btn">Browse full gallery <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
+          <div
+            v-for="tab in toolTabs"
+            :key="tab.id"
+            class="tools-preview"
+            :class="{ 'tools-preview--hidden': activeToolTab !== tab.id }"
+          >
+            <div class="preview-media">
+              <img :src="tab.image" :alt="tab.heading" />
             </div>
-          </div>
-
-          <!-- SCKAN NLI -->
-          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'nli' }">
-            <div class="preview-media"></div>
             <div class="preview-text">
-              <div class="section-kicker">SCKAN NLI</div>
-              <h3 class="preview-heading">Ask questions in plain language</h3>
-              <p class="preview-desc">Query SPARC's autonomic connectivity knowledge base in natural language. Ask about neural pathways or datasets — every answer grounded in published science.</p>
-              <a href="https://sparc.science/tools-and-resources/4LkLiH5s4FV0LVJd3htsMN" target="_blank" rel="noopener" class="preview-btn">Open SCKAN NLI <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            </div>
-          </div>
-
-          <!-- Cell Explorer -->
-          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'cell' }">
-            <div class="preview-media"></div>
-            <div class="preview-text">
-              <div class="section-kicker">Cell explorer</div>
-              <h3 class="preview-heading">Cell type exploration</h3>
-              <p class="preview-desc">Explore transcriptomic cell types across SPARC datasets using interactive UMAP visualizations. Gene expression profiles grounded in SPARC's unified metadata.</p>
-              <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open Cell Explorer <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            </div>
-          </div>
-
-          <!-- Simulate -->
-          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'simulate' }">
-            <div class="preview-media"></div>
-            <div class="preview-text">
-              <div class="section-kicker">o²S²PARC</div>
-              <h3 class="preview-heading">Simulation and modeling</h3>
-              <p class="preview-desc">Run and share computational models in the cloud. Reproduce published simulations or build your own pipelines — no local install required.</p>
-              <a href="https://osparc.io" target="_blank" rel="noopener" class="preview-btn">Open Simulate <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            </div>
-          </div>
-
-          <!-- SCKANNER -->
-          <div class="tools-preview" :class="{ 'tools-preview--hidden': activeToolTab !== 'sckanner' }">
-            <div class="preview-media"></div>
-            <div class="preview-text">
-              <div class="section-kicker">SCKANNER</div>
-              <h3 class="preview-heading">Tabular connectivity explorer</h3>
-              <p class="preview-desc">Browse and validate SPARC connectivity annotations in a structured table. Filter by origin, destination, nerve pathway, and species.</p>
-              <a href="https://sparc.science/tools-and-resources" target="_blank" rel="noopener" class="preview-btn">Open SCKANNER <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <div class="section-kicker">{{ tab.kicker }}</div>
+              <h3 class="preview-heading">{{ tab.heading }}</h3>
+              <p class="preview-desc">{{ tab.desc }}</p>
+              <a v-if="tab.external" :href="tab.href" target="_blank" rel="noopener" class="preview-btn">
+                {{ tab.btnLabel }}
+                <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <nuxt-link v-else :to="tab.href" class="preview-btn">
+                {{ tab.btnLabel }}
+                <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -276,6 +245,9 @@ import thumbRat from '~/assets/flatmap-thumbnails/rat-map.png'
 import thumbPig from '~/assets/flatmap-thumbnails/pig-map.png'
 import thumbMouse from '~/assets/flatmap-thumbnails/mouse-map.png'
 import thumbCat from '~/assets/flatmap-thumbnails/cat-map.png'
+import previewNervoSensus from '~/assets/tool-previews/nervosensus.gif'
+import previewMaps from '~/assets/tool-previews/maps.png'
+import previewPrecision from '~/assets/tool-previews/precision-dashboard.png'
 import { parseMarkdown } from '@/utils/formattingUtils.js'
 import getHomepageFields from '@/utils/homepageFields'
 import { useMainStore } from '../store/index.js'
@@ -423,27 +395,40 @@ function navigateToFacet(label) {
 
 const toolTabs = [
   {
-    id: 'gallery', label: 'Gallery',
-    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>`,
-  },
-  {
-    id: 'nli', label: 'SCKAN NLI',
-    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H9l-3 2v-2H3a1 1 0 0 1-1-1V3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 6h6M5 8.5h3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-  },
-  {
-    id: 'cell', label: 'Cell explorer',
+    id: 'nervosensus', label: 'NervoSensus',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="11" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="9" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="8" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="12" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="3" cy="5" r="1" stroke="currentColor" stroke-width="1.2"/></svg>`,
+    image: previewNervoSensus,
+    kicker: 'Cell explorer',
+    heading: 'Navigate cell types interactively',
+    desc: 'Click any neuron bubble to surface its proposed relationships, marker genes, gene expression distribution, and axon phenotype.',
+    href: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsMN',
+    external: false,
+    btnLabel: 'Open NervoSensus',
   },
   {
-    id: 'simulate', label: 'Simulate',
+    id: 'maps', label: 'Maps',
+    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5S12.5 9.5 12.5 6c0-2.5-2-4.5-4.5-4.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>`,
+    image: previewMaps,
+    kicker: 'Connectivity explorer',
+    heading: 'Trace neural pathways across the body',
+    desc: 'Visualize nerve connections on anatomical body maps. Switch between Dataset Explorer and Connectivity Explorer — hover any structure to highlight its pathways.',
+    href: '/apps/maps',
+    external: false,
+    btnLabel: 'Open Maps',
+  },
+  {
+    id: 'precision', label: 'Precision Atlas',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 11.5 Q3 9 5 10 T8 7 T11 5 T15 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M1 13 Q4 11.5 6 12 T10 10 T15 9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/></svg>`,
-  },
-  {
-    id: 'sckanner', label: 'SCKANNER',
-    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="3" width="14" height="2" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="7" width="14" height="2" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="11" width="14" height="2" rx="0.5" stroke="currentColor" stroke-width="1.2"/></svg>`,
+    image: previewPrecision,
+    kicker: 'Gene expression',
+    heading: 'Query gene expression across cell types',
+    desc: 'Search any gene to see expression profiles across DRG neuron subtypes — UMAP projections and violin plots sourced directly from SPARC datasets.',
+    href: '/tools-and-resources',
+    external: false,
+    btnLabel: 'Open Precision Atlas',
   },
 ]
-const activeToolTab = ref('gallery')
+const activeToolTab = ref('nervosensus')
 
 const mapSpecies = [
   { id: 'female', label: 'Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
@@ -891,6 +876,7 @@ onBeforeMount(() => {
   grid-column: 1;
   grid-row: 1;
   display: flex;
+  align-items: stretch;
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   overflow: hidden;
@@ -905,12 +891,11 @@ onBeforeMount(() => {
 
 .preview-media {
   flex: 1;
-  min-height: 300px;
   background: #08081e;
+  overflow: hidden;
   img, video {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
   }
 }
@@ -919,7 +904,7 @@ onBeforeMount(() => {
   width: 260px;
   flex-shrink: 0;
   order: -1;
-  padding: 1.75rem 1.5rem;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -930,7 +915,7 @@ onBeforeMount(() => {
     border-right: none;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
   }
-  .section-kicker { margin-bottom: 0.4rem; }
+  .section-kicker { margin-bottom: 0.3rem; }
 }
 
 .preview-heading {
@@ -938,14 +923,14 @@ onBeforeMount(() => {
   font-weight: 500;
   color: #fff;
   line-height: 1.2;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
 }
 
 .preview-desc {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.65;
-  margin: 0 0 1.25rem;
+  margin: 0 0 0.75rem;
 }
 
 .preview-btn {
