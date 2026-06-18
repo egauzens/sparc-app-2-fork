@@ -258,7 +258,7 @@ const config = useRuntimeConfig()
 const { $contentfulClient, $axios, $algoliaClient } = useNuxtApp()
 useHead({
   title: 'SPARC Portal',
-  bodyAttrs: { style: 'background: #0c0c24' },
+  bodyAttrs: { style: 'background: #F5F7FA' },
   meta: [
     {
       hid: 'description',
@@ -507,12 +507,12 @@ onBeforeMount(() => {
 @import 'sparc-design-system-components-2/src/assets/_variables.scss';
 
 .page-data {
-  background-color: #0c0c24;
+  background-color: $background;
 }
 
 /* ── Hero ── */
 .home-hero {
-  background: #0c0c24;
+  background: $background;
   padding: 4rem max(2rem, calc((100% - 1280px) / 2)) 3rem;
   display: flex;
   align-items: center;
@@ -528,7 +528,7 @@ onBeforeMount(() => {
 }
 
 .hero-image-wrap {
-  opacity: .7;
+  opacity: .85;
   flex-shrink: 0;
   mask-image:
     linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%),
@@ -556,7 +556,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #b44fff;
+  color: $purple;
   margin-bottom: 0.9rem;
   font-weight: 500;
 }
@@ -565,14 +565,14 @@ onBeforeMount(() => {
   font-size: 42px;
   font-weight: 500;
   line-height: 1.1;
-  color: #fff;
+  color: $darkBlue;
   margin-bottom: 0.9rem;
   @media (max-width: 768px) { font-size: 30px; }
 }
 
 .hero-sub {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: $neutralGrey;
   line-height: 1.75;
   margin-bottom: 1.75rem;
   :deep(p) { margin: 0; }
@@ -588,7 +588,7 @@ onBeforeMount(() => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #8300bf;
+  background: $purple;
   color: #fff;
   font-size: 1rem;
   border-radius: 8px;
@@ -604,14 +604,14 @@ onBeforeMount(() => {
   align-items: center;
   gap: 6px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.7);
+  color: $mediumGrey;
   font-size: 1rem;
   border-radius: 8px;
   padding: 9px 18px;
-  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid $lineColor1;
   text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-  &:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  &:hover { background: $background; color: $grey; border-color: $purple; }
 }
 
 /* ── Shared section text ── */
@@ -619,7 +619,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #b44fff;
+  color: $purple;
   font-weight: 500;
   margin-bottom: 0.9rem;
 }
@@ -628,21 +628,21 @@ onBeforeMount(() => {
   font-size: 42px;
   font-weight: 500;
   line-height: 1.1;
-  color: #fff;
+  color: $darkBlue;
   margin-bottom: 0.9rem;
   @media (max-width: 768px) { font-size: 30px; }
 }
 
 .section-sub {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: $neutralGrey;
   line-height: 1.75;
   margin-bottom: 0;
 }
 
 /* ── Map section ── */
 .map-section {
-  background: #0c0c24;
+  background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
@@ -655,10 +655,10 @@ onBeforeMount(() => {
 }
 
 .map-card {
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid $lineColor1;
   border-radius: 12px;
   overflow: hidden;
-  background: #08081e;
+  background: #fff;
 }
 
 .map-image-wrapper {
@@ -680,19 +680,19 @@ onBeforeMount(() => {
   font-weight: 500;
   padding: 5px 16px;
   border-radius: 6px;
-  border: 0.5px solid rgba(255, 255, 255, 0.14);
-  background: #08081e;
+  border: 1px solid $lineColor1;
+  background: #fff;
   backdrop-filter: blur(4px);
-  color: rgba(255, 255, 255, 0.45);
+  color: $mediumGrey;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.15s;
   text-align: left;
-  &:hover { color: rgba(255, 255, 255, 0.8); border-color: rgba(255, 255, 255, 0.3); }
+  &:hover { color: $grey; border-color: $purple; }
   &.active {
-    background: rgba(131, 0, 191, 0.25);
-    color: #d080ff;
-    border-color: rgba(131, 0, 191, 0.5);
+    background: rgba(131, 0, 191, 0.06);
+    color: $purple;
+    border-color: rgba(131, 0, 191, 0.35);
   }
 }
 
@@ -713,8 +713,6 @@ onBeforeMount(() => {
   display: block;
   object-fit: contain;
   object-position: center;
-  filter: invert(1) hue-rotate(180deg);
-  mix-blend-mode: screen;
 }
 
 .map-open-hint {
@@ -727,7 +725,7 @@ onBeforeMount(() => {
   gap: 6px;
   font-size: 1rem;
   font-weight: 500;
-  background: #8300bf;
+  background: $purple;
   color: #fff;
   border-radius: 8px;
   padding: 9px 18px;
@@ -738,7 +736,7 @@ onBeforeMount(() => {
 
 /* ── Discover by facet ── */
 .discover-section {
-  background: #0c0c24;
+  background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
@@ -762,18 +760,18 @@ onBeforeMount(() => {
   font-weight: 500;
   padding: 5px 16px;
   border-radius: 20px;
-  border: 0.5px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid $lineColor1;
   background: transparent;
-  color: rgba(255, 255, 255, 0.45);
+  color: $mediumGrey;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.15s;
   text-align: left;
-  &:hover { color: rgba(255, 255, 255, 0.8); border-color: rgba(255, 255, 255, 0.3); }
+  &:hover { color: $grey; border-color: $purple; }
   &.active {
-    background: rgba(131, 0, 191, 0.25);
-    color: #d080ff;
-    border-color: rgba(131, 0, 191, 0.5);
+    background: rgba(131, 0, 191, 0.06);
+    color: $purple;
+    border-color: rgba(131, 0, 191, 0.35);
   }
 }
 
@@ -806,7 +804,7 @@ onBeforeMount(() => {
   padding: 2px 4px;
   transition: background 0.12s;
   &:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(131, 0, 191, 0.04);
     .facet-bar-fill { opacity: 0.85; }
   }
   &:focus-visible { outline: 1px solid rgba(131, 0, 191, 0.7); }
@@ -814,14 +812,14 @@ onBeforeMount(() => {
 
 .facet-bar-label {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: $grey;
   white-space: nowrap;
 }
 
 .facet-bar-track {
   flex: 1;
   height: 30px;
-  background: rgba(255, 255, 255, 0.07);
+  background: $lineColor2;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -838,14 +836,14 @@ onBeforeMount(() => {
 .facet-bar-count {
   font-size: 1rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
   padding-left: 10px;
   white-space: nowrap;
 }
 
 /* ── Explore the tools ── */
 .tools-section {
-  background: #0c0c24;
+  background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2));
 }
 
@@ -866,7 +864,7 @@ onBeforeMount(() => {
   gap: 0;
   flex-wrap: wrap;
   margin-bottom: 1.25rem;
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid $lineColor1;
 }
 
 .tool-tab {
@@ -877,17 +875,17 @@ onBeforeMount(() => {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  color: rgba(255, 255, 255, 0.4);
+  color: $lightGrey;
   font-size: 1rem;
   font-family: inherit;
   font-weight: 400;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
   margin-bottom: -1px;
-  &:hover { color: rgba(255, 255, 255, 0.75); }
+  &:hover { color: $grey; }
   &.active {
-    color: #fff;
-    border-bottom-color: #8300bf;
+    color: $grey;
+    border-bottom-color: $purple;
     font-weight: 500;
   }
 }
@@ -913,10 +911,10 @@ onBeforeMount(() => {
   grid-row: 1;
   display: flex;
   align-items: stretch;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid $lineColor1;
   border-radius: 12px;
   overflow: hidden;
-  background: #0a0a1e;
+  background: #fff;
   @media (max-width: 768px) { flex-direction: column; }
 }
 
@@ -927,7 +925,7 @@ onBeforeMount(() => {
 
 .preview-media {
   flex: 1;
-  background: #08081e;
+  background: $background;
   overflow: hidden;
   img, video {
     width: 100%;
@@ -944,12 +942,12 @@ onBeforeMount(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-right: 0.5px solid rgba(255, 255, 255, 0.07);
+  border-right: 1px solid $lineColor2;
   @media (max-width: 768px) {
     width: 100%;
     order: 0;
     border-right: none;
-    border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid $lineColor2;
   }
   .section-kicker { margin-bottom: 0.3rem; }
 }
@@ -957,14 +955,14 @@ onBeforeMount(() => {
 .preview-heading {
   font-size: 20px;
   font-weight: 500;
-  color: #fff;
+  color: $darkBlue;
   line-height: 1.2;
   margin: 0 0 0.5rem;
 }
 
 .preview-desc {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: $neutralGrey;
   line-height: 1.65;
   margin: 0 0 0.75rem;
 }
@@ -977,7 +975,7 @@ onBeforeMount(() => {
   font-weight: 500;
   padding: 9px 18px;
   border-radius: 8px;
-  background: #8300bf;
+  background: $purple;
   border: none;
   color: #fff;
   text-decoration: none;
@@ -987,7 +985,7 @@ onBeforeMount(() => {
 
 /* ── Find your path ── */
 .path-section {
-  background: #0c0c24;
+  background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2)) 4rem;
 }
 
@@ -1005,22 +1003,23 @@ onBeforeMount(() => {
 }
 
 .path-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  background: #fff;
+  border: 1px solid $lineColor2;
   border-radius: 14px;
   padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: $background;
     border-color: rgba(131, 0, 191, 0.35);
+    box-shadow: 0 2px 12px rgba(131, 0, 191, 0.08);
   }
 }
 
 .path-card-icon {
-  color: #8300bf;
+  color: $purple;
 }
 
 .path-card-kicker-group {
@@ -1033,20 +1032,20 @@ onBeforeMount(() => {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #8300bf;
+  color: $purple;
 }
 
 .path-card-heading {
   font-size: 18px;
   font-weight: 600;
-  color: #fff;
+  color: $darkBlue;
   margin: 0 0 0.75rem;
 }
 
 .path-card-desc {
   font-size: 1rem;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.55);
+  color: $neutralGrey;
   margin: 0 0 1.5rem;
   flex: 1;
 }
@@ -1059,7 +1058,7 @@ onBeforeMount(() => {
   font-weight: 500;
   padding: 9px 18px;
   border-radius: 8px;
-  background: #8300bf;
+  background: $purple;
   border: none;
   color: #fff;
   text-decoration: none;
