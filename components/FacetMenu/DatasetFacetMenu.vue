@@ -90,8 +90,8 @@ export default {
         'availability'
       ]
 
-    const visibleModelsAndSimulationsFacetCategories = 
-      ['anatomy.organ.category.name', 'anatomy.organ.subcategory.name', 'supportingAwards.consortium.name', 'availability', 'organisms.primary.species.name']
+    const visibleModelsAndSimulationsFacetCategories =
+      ['anatomy.organ.category.name', 'anatomy.organ.subcategory.name', 'item.modalities.keyword', 'organisms.primary.species.name', 'supportingAwards.consortium.name', 'availability']
 
     return {
       visibleDatasetsFacetCategories,
