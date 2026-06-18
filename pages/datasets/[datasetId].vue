@@ -76,13 +76,14 @@
                 <citation-details class="body1" v-show="activeTabId === 'cite'" :doi-value="datasetInfo.doi" />
                 <dataset-files-info class="body1" v-if="hasFiles" v-show="activeTabId === 'files'" />
                 <source-code-info class="body1" v-if="hasSourceCode" v-show="activeTabId === 'source'" :repoLink="sourceCodeLink" :osparcLink="osparcLink" />
+                <images-gallery class="body1" :markdown="markdown.markdownTop" v-show="activeTabId === 'images'" />
                 <div class="body1" v-show="activeTabId === 'metrics'">
                   <div v-if="hasCitations">
                     <dataset-references :primary-publications="primaryPublications" :associated-publications="associatedPublications" :citing-publications="citingPublications" />
                     <br />
                     <hr />
                   </div>
-                  <dataset-metrics :full-downloads="numDownloads" :citations="citingPublications == null ? 0 : citingPublications.length" :protocol-suffixes="protocolSuffixes"/>
+                  <dataset-metrics :full-downloads="numDownloads" :citations="citingPublications == null ? 0 : citingPublications.length" :protocols="protocols"/>
                 </div>
                 <version-history v-if="canViewVersions" class="body1" v-show="activeTabId === 'versions'"
                   :versions="versions" />
@@ -93,7 +94,6 @@
       </div>
       <dataset-version-message v-if="!isLatestVersion" :current-version="datasetInfo.version"
         :dataset-details="datasetInfo" />
-    
   </div>
 </template>
 
@@ -115,6 +115,7 @@ import DatasetAboutInfo from '@/components/DatasetDetails/DatasetAboutInfo.vue'
 import CitationDetails from '@/components/CitationDetails/CitationDetails.vue'
 import DatasetFilesInfo from '@/components/DatasetDetails/DatasetFilesInfo.vue'
 import SourceCodeInfo from '@/components/DatasetDetails/SourceCodeInfo.vue'
+import ImagesGallery from '@/components/ImagesGallery/ImagesGallery.vue'
 import DatasetReferences from '~/components/DatasetDetails/DatasetReferences.vue'
 import DatasetMetrics from '~/components/DatasetDetails/DatasetMetrics.vue'
 import VersionHistory from '@/components/VersionHistory/VersionHistory.vue'
@@ -126,7 +127,7 @@ const getDatasetDetails = async (config, datasetId, version, $axios, $pennsieveA
   const url = `${config.public.portal_api}/sim/dataset/${datasetId}`
   var datasetUrl = version ? `${url}/versions/${version}` : url
 
-  const datasetDetails = await $axios.get(datasetUrl).catch(async (error) => { 
+  const datasetDetails = await $axios.get(datasetUrl).catch(async (error) => {
     const status = propOr('', 'status', error.response)
     // If not found, then try accessing it directly from Pennsieve in case it has been unpublished
     if (status == 404) {
@@ -221,6 +222,10 @@ const tabs = [
   {
     label: 'Cite',
     id: 'cite'
+  },
+  {
+    label: 'Gallery',
+    id: 'images'
   },
   {
     label: 'Metrics',
@@ -544,10 +549,8 @@ export default {
       const pubs = this.citationsInfo.filter(citation => citation.relationship?.toLowerCase() == 'cites' && !citation.duplicate && !citation.curie.includes("doi:10.17504/"))
       return pubs?.length > 0 ? pubs : null
     },
-    protocolSuffixes: function () {
-      return this.associatedPublications?.map(item =>
-        item.doi.startsWith("10.17504/") ? item.doi.replace("10.17504/", "") : null
-      )
+    protocols: function () {
+      return this.associatedPublications?.map(item => item.doi) ?? []
     },
     hasCitations: function () {
       return (this.primaryPublications || this.associatedPublications|| this.citingPublications) != null
