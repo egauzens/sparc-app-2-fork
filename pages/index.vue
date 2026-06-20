@@ -40,31 +40,34 @@
         <h2 class="section-h2">Navigate the body's wiring diagram</h2>
         <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
       </div>
-      <div class="map-card">
-        <div class="map-image-wrapper">
-          <nuxt-link :to="currentMapSpecies.href" class="map-image-link" :aria-label="`Open ${currentMapSpecies.label} flatmap`">
-            <img
-              :src="currentMapSpecies.image"
-              :alt="`${currentMapSpecies.label} anatomical connectivity map`"
-              class="map-img"
-            />
-            <div class="map-open-hint">
-              Click to open full map
-              <svg viewBox="0 0 12 12" width="11" height="11" fill="none">
-                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </nuxt-link>
-          <div class="map-species-overlay">
-            <button
-              v-for="s in mapSpecies"
-              :key="s.id"
-              class="species-tab"
-              :class="{ active: currentMapSpecies.id === s.id }"
-              @click="selectedSpecies = s.id"
-            >{{ s.label }}</button>
+      <div class="map-accordion" @mouseleave="activeId = mapSpecies[0].id">
+        <nuxt-link
+          v-for="s in mapSpecies"
+          :key="s.id"
+          :to="s.href"
+          class="map-panel"
+          :class="{ 'map-panel--active': activeId === s.id }"
+          :aria-label="`Open ${s.label} flatmap`"
+          @mouseenter="activeId = s.id"
+        >
+          <div class="map-panel-img-wrap">
+            <img :src="s.image" :alt="`${s.label} anatomical connectivity map`" class="map-panel-img" />
+            <span class="map-panel-label">{{ s.label }}</span>
           </div>
-        </div>
+          <div class="map-panel-info">
+            <div class="map-panel-info-inner">
+              <p class="map-panel-kicker">Flatmap</p>
+              <h3 class="map-panel-name">{{ s.label }}</h3>
+              <p class="map-panel-desc">{{ s.desc }}</p>
+              <span class="map-panel-cta">
+                Open full map
+                <svg viewBox="0 0 12 12" width="10" height="10" fill="none">
+                  <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </nuxt-link>
       </div>
     </div>
 
@@ -467,15 +470,14 @@ const toolTabs = [
 const activeToolTab = ref('nervosensus')
 
 const mapSpecies = [
-  { id: 'female', label: 'Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
-  { id: 'male', label: 'Male', href: '/apps/maps?id=43c6fc73',  accent: '#2a9a6a', image: thumbMale },
-  { id: 'rat', label: 'Rat', href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
-  { id: 'mouse', label: 'Mouse', href: '/apps/maps?id=f2a6f36e', accent: '#cc6644', image: thumbMouse },
-  { id: 'pig', label: 'Pig',   href: '/apps/maps?id=7e71390a',  accent: '#4466cc', image: thumbPig },
-  { id: 'cat', label: 'Cat', href: '/apps/maps?id=f2251969', accent: '#ff6b35', image: thumbCat },
+  { id: 'female', label: 'Female', desc: 'Autonomic nerve connections throughout the human female body, from brainstem to organ innervation — grounded in published neuroscience.', href: '/apps/maps?id=5018b4d8', accent: '#7733bb', image: thumbFemale },
+  { id: 'male',   label: 'Male',   desc: 'Autonomic nerve connections throughout the human male body, from brainstem to organ innervation — grounded in published neuroscience.',   href: '/apps/maps?id=43c6fc73', accent: '#2a9a6a', image: thumbMale },
+  { id: 'rat',    label: 'Rat',    desc: 'Rattus norvegicus peripheral nervous system connectivity mapped from experimental neuroscience datasets.',                                  href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
+  { id: 'mouse',  label: 'Mouse',  desc: 'Mus musculus peripheral nervous system connectivity mapped from experimental neuroscience datasets.',                                      href: '/apps/maps?id=f2a6f36e', accent: '#cc6644', image: thumbMouse },
+  { id: 'pig',    label: 'Pig',    desc: 'Sus scrofa autonomic pathways — anatomically close to human and widely used in translational research.',                                  href: '/apps/maps?id=7e71390a', accent: '#4466cc', image: thumbPig },
+  { id: 'cat',    label: 'Cat',    desc: 'Felis catus peripheral nervous system pathways from published experimental neuroscience data.',                                           href: '/apps/maps?id=f2251969', accent: '#ff6b35', image: thumbCat },
 ]
-const selectedSpecies = ref('human')
-const currentMapSpecies = computed(() => mapSpecies.find(s => s.id === selectedSpecies.value) ?? mapSpecies[0])
+const activeId = ref(mapSpecies[0].id)
 
 if (homepageError.value) {
   console.error(homepageError.value)
@@ -654,84 +656,132 @@ onBeforeMount(() => {
   @media (max-width: 768px) { text-align: left; }
 }
 
-.map-card {
-  border: 1px solid $lineColor1;
-  border-radius: 12px;
+.map-accordion {
+  display: flex;
+  gap: 8px;
+  height: 440px;
+  @media (max-width: 768px) { flex-wrap: wrap; height: auto; }
+}
+
+.map-panel {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
-  background: #fff;
-}
-
-.map-image-wrapper {
-  position: relative;
-}
-
-.map-species-overlay {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
+  border-radius: 10px;
+  border: 1px solid $lineColor1;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-.species-tab {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 5px 16px;
-  border-radius: 6px;
-  border: 1px solid $lineColor1;
-  background: #fff;
-  backdrop-filter: blur(4px);
-  color: $mediumGrey;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-  text-align: left;
-  &:hover { color: $grey; border-color: $purple; }
-  &.active {
-    background: rgba(131, 0, 191, 0.06);
-    color: $purple;
-    border-color: rgba(131, 0, 191, 0.35);
+  transition: flex 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  &--active { flex: 4; }
+  @media (max-width: 768px) {
+    flex: none !important;
+    width: calc(50% - 4px);
+    height: 200px;
   }
 }
 
-.map-image-link {
-  display: block;
-  text-decoration: none;
-  cursor: pointer;
+.map-panel-img-wrap {
+  flex: 1;
+  min-height: 0;
   position: relative;
-  aspect-ratio: 16 / 7;
   overflow: hidden;
-  @media (max-width: 768px) { aspect-ratio: 4 / 3; }
-  &:hover .map-open-hint { opacity: 1; }
+  background: #f5f5f7;
 }
 
-.map-img {
+.map-panel-img {
   width: 100%;
   height: 100%;
-  display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
+  display: block;
+  .map-panel--active & { object-fit: contain; }
 }
 
-.map-open-hint {
+.map-panel-label {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  z-index: 2;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.25s;
+  .map-panel--active & { opacity: 0; }
+}
+
+.map-panel-info {
+  flex-shrink: 0;
+  height: 0;
+  overflow: hidden;
+  background: #fff;
+  border-top: 1px solid transparent;
+  transition: height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 0s 0.45s;
+  .map-panel--active & {
+    height: 164px;
+    border-top-color: $lineColor1;
+    transition: height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  @media (max-width: 768px) { display: none; }
+}
+
+.map-panel-info-inner { padding: 14px 18px 12px; }
+
+.map-panel-kicker {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $purple;
+  margin: 0 0 5px;
+  opacity: 0;
+  transition: opacity 0.2s 0.18s;
+  .map-panel--active & { opacity: 1; }
+}
+
+.map-panel-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $grey;
+  margin: 0 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.2s 0.22s;
+  .map-panel--active & { opacity: 1; }
+}
+
+.map-panel-desc {
+  font-size: 0.82rem;
+  color: $mediumGrey;
+  line-height: 1.5;
+  margin: 0 0 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  opacity: 0;
+  transition: opacity 0.2s 0.27s;
+  .map-panel--active & { opacity: 1; }
+}
+
+.map-panel-cta {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  background: $purple;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 18px;
-  opacity: 0.85;
-  transition: opacity 0.15s;
-  pointer-events: none;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $purple;
+  opacity: 0;
+  transition: opacity 0.2s 0.32s;
+  .map-panel--active & { opacity: 1; }
 }
 
 /* ── Discover by facet ── */
