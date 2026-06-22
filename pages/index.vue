@@ -104,13 +104,15 @@
             <div class="facet-bar-track">
               <div
                 class="facet-bar-fill"
+                :class="{ 'facet-bar-fill--first': index === 0 }"
                 :style="{
                   width: chartAnimated ? item.pct + '%' : '0%',
                   transition: chartAnimated ? `width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.05}s` : 'none'
                 }"
               >
-                <span class="facet-bar-count">{{ item.count.toLocaleString() }}</span>
+                <span v-if="index === 0" class="facet-bar-count facet-bar-count--inside">{{ item.count.toLocaleString() }}</span>
               </div>
+              <span v-if="index !== 0" class="facet-bar-count">{{ item.count.toLocaleString() }}</span>
             </div>
           </div>
         </div>
@@ -490,10 +492,10 @@ const toolTabs = [
 const activeToolTab = ref('precision')
 
 const mapSpecies = [
-  { id: 'female', label: 'Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
-  { id: 'male', label: 'Male', href: '/apps/maps?id=43c6fc73',  accent: '#2a9a6a', image: thumbMale },
-  { id: 'rat', label: 'Rat', href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
+  { id: 'female', label: 'Human Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
+  { id: 'male', label: 'Human Male', href: '/apps/maps?id=43c6fc73',  accent: '#2a9a6a', image: thumbMale },
   { id: 'mouse', label: 'Mouse', href: '/apps/maps?id=f2a6f36e', accent: '#cc6644', image: thumbMouse },
+  { id: 'rat', label: 'Rat', href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
   { id: 'pig', label: 'Pig',   href: '/apps/maps?id=7e71390a',  accent: '#4466cc', image: thumbPig },
   { id: 'cat', label: 'Cat', href: '/apps/maps?id=f2251969', accent: '#ff6b35', image: thumbCat },
 ]
@@ -711,6 +713,7 @@ onBeforeMount(() => {
   font-family: inherit;
   transition: all 0.15s;
   text-align: left;
+  width: fit-content;
   &:hover { color: $grey; border-color: $purple; }
   &.active {
     background: rgba(131, 0, 191, 0.06);
@@ -840,24 +843,36 @@ onBeforeMount(() => {
   height: 30px;
   background: $lineColor2;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .facet-bar-fill {
-  height: 100%;
+  align-self: stretch;
   background: linear-gradient(90deg, #5500aa, #8300bf);
   border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.facet-bar-fill--first {
   display: flex;
   align-items: center;
-  overflow: visible;
+  justify-content: flex-end;
 }
 
 .facet-bar-count {
   font-size: 1rem;
   font-weight: 500;
-  color: #fff;
-  padding-left: 10px;
+  color: $purple;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.facet-bar-count--inside {
+  color: #fff;
+  padding-right: 10px;
 }
 
 /* ── Explore the data ── */
@@ -1020,12 +1035,10 @@ onBeforeMount(() => {
 }
 
 .path-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
-  > * { flex: 0 1 280px; }
-  @media (max-width: 600px) { > * { flex: 1 1 100%; } }
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
 }
 
 .path-card {
