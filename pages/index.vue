@@ -68,11 +68,11 @@
       </div>
     </div>
 
-    <!-- Discover by facet section -->
+    <!-- Discover by topic section -->
     <div class="discover-section" ref="discoverSectionRef">
       <div class="discover-header">
         <div class="section-kicker">Explore the catalog</div>
-        <h2 class="section-h2">Discover by facet</h2>
+        <h2 class="section-h2">Discover by topic</h2>
         <p class="section-sub">Browse datasets by experimental approach, anatomical structure, or species.</p>
       </div>
       <div class="facet-tabs">
@@ -117,11 +117,11 @@
       </div>
     </div>
 
-    <!-- Explore the tools section -->
+    <!-- Explore the data section -->
     <div class="tools-section">
       <div class="tools-header">
         <div class="section-kicker">Platform overview</div>
-        <h2 class="section-h2">Explore the tools</h2>
+        <h2 class="section-h2">Explore the data</h2>
         <p class="section-sub">From research images to connectivity queries to running simulations — all grounded in SPARC's unified metadata.</p>
       </div>
       <div class="tools-left">
@@ -179,25 +179,11 @@
           <div class="path-card-kicker">Researchers</div>
           <div class="path-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-            </svg>
-          </div>
-        </div>
-        <h3 class="path-card-heading">Find data &amp; models</h3>
-        <p class="path-card-desc">Search hundreds of open datasets, models, and simulations spanning the autonomic nervous system. Filter by organ, species, modality, and more.</p>
-        <nuxt-link to="/data?type=dataset" class="path-card-btn">Browse datasets <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
-      </div>
-
-      <div class="path-card">
-        <div class="path-card-kicker-group">
-          <div class="path-card-kicker">Analysts</div>
-          <div class="path-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
               <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15m-6.8-1.5v6m0 0H9m4 0h4"/><path d="M3 12h18"/>
             </svg>
           </div>
         </div>
-        <h3 class="path-card-heading">Use SPARC data</h3>
+        <h3 class="path-card-heading">Use data</h3>
         <p class="path-card-desc">Programmatic access to datasets, models, metadata, and connectivity knowledge via APIs.</p>
         <a href="https://docs.sparc.science/docs/sparc-apis-and-open-access-code" target="_blank" rel="noopener" class="path-card-btn">Explore Docs <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
@@ -211,7 +197,7 @@
             </svg>
           </div>
         </div>
-        <h3 class="path-card-heading">Share your work</h3>
+        <h3 class="path-card-heading">Share your data</h3>
         <p class="path-card-desc">Submit datasets, protocols, and tools to the SPARC repository. Reach a global community of autonomic nervous system researchers and maximize the impact of your science.</p>
         <nuxt-link to="/share-data" class="path-card-btn">Submit to SPARC <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
@@ -225,7 +211,7 @@
             </svg>
           </div>
         </div>
-        <h3 class="path-card-heading">Latest news</h3>
+        <h3 class="path-card-heading">News</h3>
         <p class="path-card-desc">Stay up to date with the latest from the SPARC program — new datasets, tool launches, consortium updates, funding opportunities, and community events.</p>
         <nuxt-link to="/news-and-events" class="path-card-btn">All news <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
@@ -246,8 +232,10 @@ import thumbPig from '~/assets/flatmap-thumbnails/pig-map.png'
 import thumbMouse from '~/assets/flatmap-thumbnails/mouse-map.png'
 import thumbCat from '~/assets/flatmap-thumbnails/cat-map.png'
 import previewNervoSensus from '~/assets/tool-previews/nervosensus.gif'
-import previewMaps from '~/assets/tool-previews/maps.png'
 import previewPrecision from '~/assets/tool-previews/precision-dashboard.png'
+import previewOsparc from '~/assets/tool-previews/oSPARC.gif'
+import previewSckanNli from '~/assets/tool-previews/SCKAN NLI.gif'
+import previewSckanner from '~/assets/tool-previews/SCKANNER.gif'
 import { parseMarkdown } from '@/utils/formattingUtils.js'
 import getHomepageFields from '@/utils/homepageFields'
 import { useMainStore } from '../store/index.js'
@@ -372,20 +360,22 @@ const { data: algoliaFacetData } = useAsyncData('facets', async () => {
   const algoliaIndex = $algoliaClient.initIndex(config.public.ALGOLIA_INDEX_VERSION_PUBLISHED_TIME_DESC)
   const result = await algoliaIndex.search('', {
     hitsPerPage: 0,
-    facets: ['item.modalities.keyword', 'anatomy.organ.category.name', 'organisms.primary.species.name'],
+    facets: ['item.modalities.keyword', 'anatomy.organ.category.name', 'organisms.primary.species.name', 'supportingAwards.consortium.name'],
   })
   return result.facets || {}
 })
 
 const facetTabConfig = [
-  { id: 'modality', label: 'By modality', path: 'item.modalities.keyword' },
-  { id: 'organ',    label: 'By organ',    path: 'anatomy.organ.category.name' },
-  { id: 'species',  label: 'By species',  path: 'organisms.primary.species.name' },
+  { id: 'modality',   label: 'By modality',   path: 'item.modalities.keyword' },
+  { id: 'organ',      label: 'By organ',      path: 'anatomy.organ.category.name' },
+  { id: 'species',    label: 'By species',    path: 'organisms.primary.species.name' },
+  { id: 'consortium', label: 'By consortium', path: 'supportingAwards.consortium.name' },
 ]
 
 const activeFacetTab = ref('modality')
 const chartAnimated = ref(false)
 const discoverSectionRef = ref(null)
+const labelColWidth = ref('max-content')
 
 onMounted(() => {
   if (!discoverSectionRef.value) return
@@ -425,11 +415,33 @@ const facetDataByTab = computed(() => {
   )
 })
 
+const measureLabelColWidth = async () => {
+  await nextTick()
+  const labels = document.querySelectorAll('.facet-bar-label')
+  let max = 0
+  labels.forEach(el => { if (el.scrollWidth > max) max = el.scrollWidth })
+  if (max > 0) labelColWidth.value = `${max}px`
+}
+
+watch(facetDataByTab, measureLabelColWidth)
+onMounted(measureLabelColWidth)
+
 function navigateToFacet(label) {
   router.push({ path: '/data', query: { type: 'dataset', selectedFacetIds: label } })
 }
 
 const toolTabs = [
+    {
+    id: 'precision', label: 'Precision Atlas',
+    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 11.5 Q3 9 5 10 T8 7 T11 5 T15 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M1 13 Q4 11.5 6 12 T10 10 T15 9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/></svg>`,
+    image: previewPrecision,
+    kicker: 'Gene expression',
+    heading: 'Query gene expression across cell types',
+    desc: 'Search any gene to see expression profiles across DRG neuron subtypes — UMAP projections and violin plots sourced directly from SPARC datasets.',
+    href: '/apps/precision-dashboard',
+    external: false,
+    btnLabel: 'Open Precision Atlas',
+  },
   {
     id: 'nervosensus', label: 'NervoSensus',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="11" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="9" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="8" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="12" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="3" cy="5" r="1" stroke="currentColor" stroke-width="1.2"/></svg>`,
@@ -437,34 +449,45 @@ const toolTabs = [
     kicker: 'Cell explorer',
     heading: 'Navigate cell types interactively',
     desc: 'Click any neuron bubble to surface its proposed relationships, marker genes, gene expression distribution, and axon phenotype.',
-    href: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsMN',
+    href: 'https://devservosensus.netlify.app/',
     external: false,
     btnLabel: 'Open NervoSensus',
   },
   {
-    id: 'maps', label: 'Maps',
-    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5S12.5 9.5 12.5 6c0-2.5-2-4.5-4.5-4.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>`,
-    image: previewMaps,
-    kicker: 'Connectivity explorer',
-    heading: 'Trace neural pathways across the body',
-    desc: 'Visualize nerve connections on anatomical body maps. Switch between Dataset Explorer and Connectivity Explorer — hover any structure to highlight its pathways.',
-    href: '/apps/maps',
-    external: false,
-    btnLabel: 'Open Maps',
+    id: 'osparc', label: 'oSPARC',
+    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="2" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="11" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="9" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 5.5H6.5M9.5 3.5H11M9.5 5.5H11M8 5V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+    image: previewOsparc,
+    kicker: 'Computational platform',
+    heading: 'Build and run computational workflows',
+    desc: 'Connect services and models into reproducible pipelines. oSPARC lets you run simulations, share notebooks, and collaborate on computational studies — no local setup required.',
+    href: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsvH',
+    external: true,
+    btnLabel: 'Open oSPARC',
   },
   {
-    id: 'precision', label: 'Precision Atlas',
-    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 11.5 Q3 9 5 10 T8 7 T11 5 T15 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M1 13 Q4 11.5 6 12 T10 10 T15 9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/></svg>`,
-    image: previewPrecision,
-    kicker: 'Gene expression',
-    heading: 'Query gene expression across cell types',
-    desc: 'Search any gene to see expression profiles across DRG neuron subtypes — UMAP projections and violin plots sourced directly from SPARC datasets.',
-    href: '/tools-and-resources',
+    id: 'sckan-nli', label: 'SCKAN NLI',
+    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M2 8h8M2 12h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="13" cy="11" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M14.5 12.5l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+    image: previewSckanNli,
+    kicker: 'Natural language interface',
+    heading: 'Query SCKAN in plain English',
+    desc: 'Ask questions about neural connectivity in natural language. SCKAN NLI translates your query into structured SPARQL and returns grounded answers from the SCKAN knowledge base.',
+    href: '/tools-and-resources/Fvi4qS2bwKTXPIdoYzelB',
     external: false,
-    btnLabel: 'Open Precision Atlas',
+    btnLabel: 'Open SCKAN NLI',
+  },
+  {
+    id: 'sckanner', label: 'SCKANNER',
+    icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+    image: previewSckanner,
+    kicker: 'Knowledge browser',
+    heading: 'Explore SCKAN connectivity knowledge',
+    desc: 'Browse the full SCKAN connectivity graph — filter by species, organ, and pathway type to surface the anatomical evidence behind every nerve connection.',
+    href: '/tools-and-resources/3Ad4kbyYnXsUtzRFzUguwg',
+    external: false,
+    btnLabel: 'Open SCKANNER',
   },
 ]
-const activeToolTab = ref('nervosensus')
+const activeToolTab = ref('precision')
 
 const mapSpecies = [
   { id: 'female', label: 'Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
@@ -513,7 +536,7 @@ onBeforeMount(() => {
 /* ── Hero ── */
 .home-hero {
   background: $background;
-  padding: 4rem max(2rem, calc((100% - 1280px) / 2)) 3rem;
+  padding: 4rem max(2rem, calc((100% - 1280px) / 2)) 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -734,7 +757,7 @@ onBeforeMount(() => {
   pointer-events: none;
 }
 
-/* ── Discover by facet ── */
+/* ── Discover by topic ── */
 .discover-section {
   background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2));
@@ -784,7 +807,7 @@ onBeforeMount(() => {
   grid-column: 1;
   grid-row: 1;
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: v-bind(labelColWidth) 1fr;
   row-gap: 3px;
   column-gap: 12px;
 }
@@ -798,15 +821,11 @@ onBeforeMount(() => {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
-  align-items: center;
+  align-items: start;
   cursor: pointer;
   border-radius: 6px;
   padding: 2px 4px;
   transition: background 0.12s;
-  &:hover {
-    background: rgba(131, 0, 191, 0.04);
-    .facet-bar-fill { opacity: 0.85; }
-  }
   &:focus-visible { outline: 1px solid rgba(131, 0, 191, 0.7); }
 }
 
@@ -841,7 +860,7 @@ onBeforeMount(() => {
   white-space: nowrap;
 }
 
-/* ── Explore the tools ── */
+/* ── Explore the data ── */
 .tools-section {
   background: $background;
   padding: 2rem max(2rem, calc((100% - 1280px) / 2));
@@ -911,11 +930,12 @@ onBeforeMount(() => {
   grid-row: 1;
   display: flex;
   align-items: stretch;
+  height: 340px;
   border: 1px solid $lineColor1;
   border-radius: 12px;
   overflow: hidden;
   background: #fff;
-  @media (max-width: 768px) { flex-direction: column; }
+  @media (max-width: 768px) { flex-direction: column; height: auto; }
 }
 
 .tools-preview--hidden {
@@ -925,11 +945,16 @@ onBeforeMount(() => {
 
 .preview-media {
   flex: 1;
-  background: $background;
+  min-height: 0;
+  background: white;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   img, video {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: contain;
     display: block;
   }
 }
@@ -995,11 +1020,12 @@ onBeforeMount(() => {
 }
 
 .path-cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
   gap: 1.25rem;
-  @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 600px)  { grid-template-columns: 1fr; }
+  > * { flex: 0 1 280px; }
+  @media (max-width: 600px) { > * { flex: 1 1 100%; } }
 }
 
 .path-card {
@@ -1011,11 +1037,6 @@ onBeforeMount(() => {
   flex-direction: column;
   gap: 0;
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
-  &:hover {
-    background: $background;
-    border-color: rgba(131, 0, 191, 0.35);
-    box-shadow: 0 2px 12px rgba(131, 0, 191, 0.08);
-  }
 }
 
 .path-card-icon {
