@@ -2,7 +2,7 @@
   <div class="page-data">
     <div class="home-hero">
       <div class="hero-inner">
-        <div class="hero-eyebrow">Open data from molecule to organ</div>
+        <div class="hero-eyebrow">Open data from molecule to system</div>
         <!-- eslint-disable vue/no-v-html -->
         <h1 class="hero-h1" v-if="heroHeading">{{ heroHeading }}</h1>
         <div class="hero-sub" v-html="parseMarkdown(heroCopy)" />
@@ -147,7 +147,12 @@
             :class="{ 'tools-preview--hidden': activeToolTab !== tab.id }"
           >
             <div class="preview-media">
-              <img :src="tab.image" :alt="tab.heading" />
+              <a v-if="tab.external" :href="tab.href" target="_blank" rel="noopener">
+                <img :src="tab.image" :alt="tab.heading" />
+              </a>
+              <nuxt-link v-else :to="tab.href">
+                <img :src="tab.image" :alt="tab.heading" />
+              </nuxt-link>
             </div>
             <div class="preview-text">
               <div class="section-kicker">{{ tab.kicker }}</div>
@@ -963,9 +968,12 @@ onBeforeMount(() => {
   min-height: 0;
   background: white;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  a, :deep(a) {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
   img, video {
     width: 100%;
     height: 100%;
