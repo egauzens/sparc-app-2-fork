@@ -41,30 +41,10 @@
         <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
       </div>
       <div class="map-card">
-        <div class="map-image-wrapper">
-          <nuxt-link :to="currentMapSpecies.href" class="map-image-link" :aria-label="`Open ${currentMapSpecies.label} flatmap`">
-            <img
-              :src="currentMapSpecies.image"
-              :alt="`${currentMapSpecies.label} anatomical connectivity map`"
-              class="map-img"
-            />
-            <div class="map-open-hint">
-              Click to open full map
-              <svg viewBox="0 0 12 12" width="11" height="11" fill="none">
-                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </nuxt-link>
-          <div class="map-species-overlay">
-            <button
-              v-for="s in mapSpecies"
-              :key="s.id"
-              class="species-tab"
-              :class="{ active: currentMapSpecies.id === s.id }"
-              @click="selectedSpecies = s.id"
-            >{{ s.label }}</button>
-          </div>
-        </div>
+        <HomepageMapWidget
+          :flatmapAPI="config.public.flatmap_api"
+          :sparcAPI="config.public.portal_api"
+        />
       </div>
     </div>
 
@@ -232,12 +212,6 @@
 
 <script setup>
 import { failMessage } from '@/utils/notification-messages'
-import thumbFemale from '~/assets/flatmap-thumbnails/female-map.png'
-import thumbMale from '~/assets/flatmap-thumbnails/male-map.png'
-import thumbRat from '~/assets/flatmap-thumbnails/rat-map.png'
-import thumbPig from '~/assets/flatmap-thumbnails/pig-map.png'
-import thumbMouse from '~/assets/flatmap-thumbnails/mouse-map.png'
-import thumbCat from '~/assets/flatmap-thumbnails/cat-map.png'
 import previewNervoSensus from '~/assets/tool-previews/nervosensus.gif'
 import previewPrecision from '~/assets/tool-previews/precision-dashboard.png'
 import previewOsparc from '~/assets/tool-previews/oSPARC.gif'
@@ -496,16 +470,6 @@ const toolTabs = [
 ]
 const activeToolTab = ref('precision')
 
-const mapSpecies = [
-  { id: 'female', label: 'Human Female', href: '/apps/maps?id=5018b4d8',  accent: '#7733bb', image: thumbFemale },
-  { id: 'male', label: 'Human Male', href: '/apps/maps?id=43c6fc73',  accent: '#2a9a6a', image: thumbMale },
-  { id: 'mouse', label: 'Mouse', href: '/apps/maps?id=f2a6f36e', accent: '#cc6644', image: thumbMouse },
-  { id: 'rat', label: 'Rat', href: '/apps/maps?id=9e9ee8c4', accent: '#2a9a6a', image: thumbRat },
-  { id: 'pig', label: 'Pig',   href: '/apps/maps?id=7e71390a',  accent: '#4466cc', image: thumbPig },
-  { id: 'cat', label: 'Cat', href: '/apps/maps?id=f2251969', accent: '#ff6b35', image: thumbCat },
-]
-const selectedSpecies = ref('human')
-const currentMapSpecies = computed(() => mapSpecies.find(s => s.id === selectedSpecies.value) ?? mapSpecies[0])
 
 if (homepageError.value) {
   console.error(homepageError.value)
@@ -691,79 +655,7 @@ onBeforeMount(() => {
   background: #fff;
 }
 
-.map-image-wrapper {
-  position: relative;
-}
 
-.map-species-overlay {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.species-tab {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 5px 16px;
-  border-radius: 6px;
-  border: 1px solid $lineColor1;
-  background: #fff;
-  backdrop-filter: blur(4px);
-  color: $mediumGrey;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-  text-align: left;
-  width: fit-content;
-  &:hover { color: $grey; border-color: $purple; }
-  &.active {
-    background: rgba(131, 0, 191, 0.06);
-    color: $purple;
-    border-color: rgba(131, 0, 191, 0.35);
-  }
-}
-
-.map-image-link {
-  display: block;
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-  aspect-ratio: 16 / 7;
-  overflow: hidden;
-  @media (max-width: 768px) { aspect-ratio: 4 / 3; }
-  &:hover .map-open-hint { opacity: 1; }
-}
-
-.map-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  object-position: center;
-}
-
-.map-open-hint {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  background: $purple;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 18px;
-  opacity: 0.85;
-  transition: opacity 0.15s;
-  pointer-events: none;
-}
 
 /* ── Discover by topic ── */
 .discover-section {
