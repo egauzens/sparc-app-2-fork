@@ -38,7 +38,7 @@
       <div class="map-header">
         <div class="section-kicker">Interactive map</div>
         <h2 class="section-h2">Navigate the body's wiring diagram</h2>
-        <p class="section-sub">Click any anatomical structure to surface linked datasets and models. Built on SCKAN — every connection grounded in published science.</p>
+        <p class="section-sub">Explore the body's neural pathways and anatomical connections, grounded in published science.</p>
       </div>
       <div class="map-card">
         <HomepageMapWidget
@@ -585,7 +585,7 @@ onBeforeMount(() => {
   background: $purple;
   color: #fff;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 9px 18px;
   text-decoration: none;
   font-weight: 500;
@@ -600,7 +600,7 @@ onBeforeMount(() => {
   background: transparent;
   color: $mediumGrey;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 9px 18px;
   border: 1px solid $lineColor1;
   text-decoration: none;
@@ -650,7 +650,7 @@ onBeforeMount(() => {
 
 .map-card {
   border: 1px solid $lineColor1;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
   background: #fff;
 }
@@ -682,7 +682,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   font-weight: 500;
   padding: 5px 16px;
-  border-radius: 20px;
+  border-radius: 4px;
   border: 1px solid $lineColor1;
   background: transparent;
   color: $mediumGrey;
@@ -723,7 +723,7 @@ onBeforeMount(() => {
   grid-template-columns: subgrid;
   align-items: start;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 2px 4px;
   transition: background 0.12s;
   &:focus-visible { outline: 1px solid rgba(131, 0, 191, 0.7); }
@@ -739,7 +739,7 @@ onBeforeMount(() => {
   flex: 1;
   height: 30px;
   background: $lineColor2;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: visible;
   display: flex;
   align-items: center;
@@ -749,7 +749,7 @@ onBeforeMount(() => {
 .facet-bar-fill {
   align-self: stretch;
   background: linear-gradient(90deg, #5500aa, #8300bf);
-  border-radius: 6px;
+  border-radius: 4px;
   flex-shrink: 0;
 }
 
@@ -844,7 +844,7 @@ onBeforeMount(() => {
   align-items: stretch;
   height: 340px;
   border: 1px solid $lineColor1;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
   background: #fff;
   @media (max-width: 768px) { flex-direction: column; height: auto; }
@@ -914,7 +914,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   font-weight: 500;
   padding: 9px 18px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: $purple;
   border: none;
   color: #fff;
@@ -944,7 +944,7 @@ onBeforeMount(() => {
 .path-card {
   background: #fff;
   border: 1px solid $lineColor2;
-  border-radius: 14px;
+  border-radius: 4px;
   padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -991,7 +991,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   font-weight: 500;
   padding: 9px 18px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: $purple;
   border: none;
   color: #fff;
