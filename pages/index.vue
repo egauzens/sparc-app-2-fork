@@ -53,7 +53,7 @@
       <div class="discover-header">
         <div class="section-kicker">Explore the catalog</div>
         <h2 class="section-h2">Discover by topic</h2>
-        <p class="section-sub">Browse datasets by experimental approach, anatomical structure, or species.</p>
+        <p class="section-sub">Browse datasets and models by experimental approach, anatomical structure, or species.</p>
       </div>
       <div class="facet-tabs">
         <button
@@ -75,16 +75,17 @@
             v-for="(item, index) in facetDataByTab[tab.id]"
             :key="item.label"
             class="facet-bar-row"
+            :class="{ 'facet-bar-row--show-all': item.isShowAll }"
             role="button"
             tabindex="0"
-            @click="navigateToFacet(item.label)"
-            @keydown.enter="navigateToFacet(item.label)"
+            @click="navigateToFacet(item)"
+            @keydown.enter="navigateToFacet(item)"
           >
             <div class="facet-bar-label">{{ item.label }}</div>
             <div class="facet-bar-track">
               <div
                 class="facet-bar-fill"
-                :class="{ 'facet-bar-fill--first': index === 0 }"
+                :class="{ 'facet-bar-fill--first': index === 0, 'facet-bar-fill--show-all': item.isShowAll }"
                 :style="{
                   width: chartAnimated ? item.pct + '%' : '0%',
                   transition: chartAnimated ? `width 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${index * 0.05}s` : 'none'
@@ -166,7 +167,8 @@
           <div class="path-card-kicker">Researchers</div>
           <div class="path-card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
-              <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15m-6.8-1.5v6m0 0H9m4 0h4"/><path d="M3 12h18"/>
+              <circle cx="12" cy="8" r="3.5"/>
+              <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6"/>
             </svg>
           </div>
         </div>
@@ -185,7 +187,7 @@
           </div>
         </div>
         <h3 class="path-card-heading">Share your data</h3>
-        <p class="path-card-desc">Submit datasets, protocols, and tools to the SPARC repository. Reach a global community of autonomic nervous system researchers and maximize the impact of your science.</p>
+        <p class="path-card-desc">Submit datasets, protocols, and tools to the SPARC repository. Reach a global community of researchers bridging the body and brain and maximize the impact of your science.</p>
         <nuxt-link to="/share-data" class="path-card-btn">Submit to SPARC <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
 
@@ -199,8 +201,8 @@
           </div>
         </div>
         <h3 class="path-card-heading">News</h3>
-        <p class="path-card-desc">Stay up to date with the latest from the SPARC program — new datasets, tool launches, consortium updates, funding opportunities, and community events.</p>
-        <nuxt-link to="/news-and-events" class="path-card-btn">All news <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
+        <p class="path-card-desc">Stay up-to-date with the latest from the community, including new datasets, tool launches, consortium updates, and events.</p>
+        <nuxt-link to="/news-and-events" class="path-card-btn">All News <svg viewBox="0 0 12 12" width="11" height="11" fill="none" style="margin-left:6px;flex-shrink:0"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></nuxt-link>
       </div>
 
     </div>
@@ -343,12 +345,12 @@ const { data: algoliaFacetData } = useAsyncData('facets', async () => {
     hitsPerPage: 0,
     facets: ['item.modalities.keyword', 'anatomy.organ.category.name', 'organisms.primary.species.name', 'supportingAwards.consortium.name'],
   })
-  return result.facets || {}
+  return { facets: result.facets || {}, nbHits: result.nbHits || 0 }
 })
 
 const facetTabConfig = [
   { id: 'modality',   label: 'By modality',   path: 'item.modalities.keyword' },
-  { id: 'organ',      label: 'By organ',      path: 'anatomy.organ.category.name' },
+  { id: 'anatomy',      label: 'By anatomy',      path: 'anatomy.organ.category.name' },
   { id: 'species',    label: 'By species',    path: 'organisms.primary.species.name' },
   { id: 'consortium', label: 'By consortium', path: 'supportingAwards.consortium.name' },
 ]
@@ -380,19 +382,26 @@ watch(activeFacetTab, async () => {
   }))
 })
 
-function buildFacetItems(raw) {
+function buildFacetItems(raw, totalCount) {
   const items = Object.entries(raw || {})
     .map(([label, count]) => ({ label, count }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 15)
   const max = items[0]?.count || 1
-  return items.map(item => ({ ...item, pct: Math.max(Math.round((item.count / max) * 100), 1) }))
+  // Real items scaled to 95% max so "Show All" at 100% is visually 5 points wider
+  const realItems = items.map(item => ({ ...item, pct: Math.max(Math.round((item.count / max) * 95), 1) }))
+  return [
+    { label: 'Show All', count: totalCount, pct: 100, isShowAll: true },
+    ...realItems,
+  ]
 }
 
 const facetDataByTab = computed(() => {
-  const data = algoliaFacetData.value || {}
+  const raw = algoliaFacetData.value || {}
+  const data = raw.facets || {}
+  const nbHits = raw.nbHits || 0
   return Object.fromEntries(
-    facetTabConfig.map(tab => [tab.id, buildFacetItems(data[tab.path])])
+    facetTabConfig.map(tab => [tab.id, buildFacetItems(data[tab.path], nbHits)])
   )
 })
 
@@ -407,8 +416,12 @@ const measureLabelColWidth = async () => {
 watch(facetDataByTab, measureLabelColWidth)
 onMounted(measureLabelColWidth)
 
-function navigateToFacet(label) {
-  router.push({ path: '/data', query: { type: 'dataset', selectedFacetIds: label } })
+function navigateToFacet(item) {
+  if (item.isShowAll) {
+    router.push({ path: '/data', query: { type: 'dataset' } })
+  } else {
+    router.push({ path: '/data', query: { type: 'dataset', selectedFacetIds: item.label } })
+  }
 }
 
 const toolTabs = [
@@ -435,7 +448,7 @@ const toolTabs = [
     btnLabel: 'Open NervoSensus',
   },
   {
-    id: 'osparc', label: 'oSPARC',
+    id: 'osparc', label: 'o²S²PARC',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="2" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="11" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="9" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 5.5H6.5M9.5 3.5H11M9.5 5.5H11M8 5V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
     image: previewOsparc,
     kicker: 'Computational platform',
@@ -443,7 +456,7 @@ const toolTabs = [
     desc: 'Connect services and models into reproducible pipelines. oSPARC lets you run simulations, share notebooks, and collaborate on computational studies — no local setup required.',
     href: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsvH',
     external: true,
-    btnLabel: 'Open oSPARC',
+    btnLabel: 'Open o²S²PARC',
   },
   {
     id: 'sckan-nli', label: 'SCKAN NLI',
@@ -733,6 +746,7 @@ onBeforeMount(() => {
   font-size: 1rem;
   color: $grey;
   white-space: nowrap;
+  text-transform: capitalize;
 }
 
 .facet-bar-track {
@@ -757,6 +771,14 @@ onBeforeMount(() => {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+
+.facet-bar-row--show-all {
+  .facet-bar-label { font-weight: 600; color: $purple; }
+}
+
+.facet-bar-fill--show-all {
+  background: linear-gradient(90deg, #3d007a, #6600a0);
 }
 
 .facet-bar-count {
@@ -788,6 +810,9 @@ onBeforeMount(() => {
 
 .tools-left {
   width: 100%;
+  height: 560px;
+  display: flex;
+  flex-direction: column;
 }
 
 .tools-nav {
@@ -835,6 +860,8 @@ onBeforeMount(() => {
 .tools-previews {
   display: grid;
   grid-template-columns: 1fr;
+  flex: 1;
+  min-height: 0;
 }
 
 .tools-preview {
@@ -842,7 +869,6 @@ onBeforeMount(() => {
   grid-row: 1;
   display: flex;
   align-items: stretch;
-  height: 340px;
   border: 1px solid $lineColor1;
   border-radius: 4px;
   overflow: hidden;
@@ -851,6 +877,7 @@ onBeforeMount(() => {
 }
 
 .tools-preview--hidden {
+  height: stretch;
   visibility: hidden;
   pointer-events: none;
 }

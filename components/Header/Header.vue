@@ -137,13 +137,13 @@ const navItems = [
   {
     id: 'access',
     label: 'Access',
-    iconLabel: '400+ open resources',
+    iconLabel: '400+ open resources\nFree, no account required',
     iconHtml: DB_ICON,
     links: [
-      { title: 'Datasets & models', sub: 'Search across all resources · free, no account required', href: '/data?type=dataset' },
+      { title: 'Datasets & models', sub: 'Search across all resources', href: '/data?type=dataset' },
       { title: 'Flatmap', sub: 'Navigate by anatomy', href: '/apps/maps?type=ac' },
-      { title: 'Projects', sub: 'Browse active SPARC-funded projects', href: '/apps/maps?type=ac' },
-      { title: 'News & Events', sub: 'Updates from the SPARC program', href: '/news-and-events' },
+      { title: 'Projects', sub: 'Browse projects from supported consortia', href: '/about' },
+      { title: 'News', sub: 'Updates from the community', href: '/news-and-events' },
       { divider: true },
       { title: 'Documentation', sub: 'Guides, tutorials, and help', href: 'https://docs.sparc.science/', external: true },
       { title: 'Support', sub: 'Contact us with questions or feedback', href: '/contact-us' },
@@ -178,11 +178,11 @@ const navItems = [
   {
     id: 'tools',
     label: 'Tools',
-    iconLabel: 'SPARC platforms',
+    iconLabel: 'Tools & Resources',
     iconHtml: TOOLS_ICON,
-    links: [
-      { title: 'Explore', sub: 'Browse all SPARC tools & resources', href: '/tools-and-resources' },
+    links: [    
       { title: 'Apps', sub: 'Tools to help you Find, Use, and Share', href: '/apps' },
+      { title: 'Explore', sub: 'Browse all tools & resources', href: '/tools-and-resources' },
       { divider: true },
       { title: 'Share a tool', sub: 'Register software or models', href: '/contact-us?type=tool' },
     ]
