@@ -114,13 +114,13 @@
             :key="tab.id"
             class="tool-tab"
             :class="{ active: activeToolTab === tab.id }"
-            @click="activeToolTab = tab.id"
+            @click="selectToolTab(tab.id)"
           >
             <span class="tool-tab-icon" v-html="tab.icon" aria-hidden="true"></span>
             <span class="tool-tab-label">{{ tab.label }}</span>
           </button>
         </div>
-        <div class="tools-previews">
+        <div class="tools-previews" @mouseenter="stopToolTabCycle" @mouseleave="startToolTabCycle">
           <div
             v-for="tab in toolTabs"
             :key="tab.id"
@@ -482,6 +482,25 @@ const toolTabs = [
   },
 ]
 const activeToolTab = ref('precision')
+
+let toolTabCycleTimer = null
+const stopToolTabCycle = () => {
+  clearInterval(toolTabCycleTimer)
+  toolTabCycleTimer = null
+}
+const startToolTabCycle = () => {
+  clearInterval(toolTabCycleTimer)
+  toolTabCycleTimer = setInterval(() => {
+    const index = toolTabs.findIndex(tab => tab.id === activeToolTab.value)
+    activeToolTab.value = toolTabs[(index + 1) % toolTabs.length].id
+  }, 10000)
+}
+const selectToolTab = (id) => {
+  activeToolTab.value = id
+  startToolTabCycle()
+}
+onMounted(startToolTabCycle)
+onBeforeUnmount(() => clearInterval(toolTabCycleTimer))
 
 
 if (homepageError.value) {
@@ -905,10 +924,10 @@ onBeforeMount(() => {
   width: 260px;
   flex-shrink: 0;
   order: -1;
-  padding: 1rem 1.25rem;
+  padding: 2rem 1.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   border-right: 1px solid $lineColor2;
   @media (max-width: 768px) {
     width: 100%;
@@ -938,6 +957,7 @@ onBeforeMount(() => {
   display: inline-flex;
   align-items: center;
   width: fit-content;
+  margin-top: auto;
   font-size: 1rem;
   font-weight: 500;
   padding: 9px 18px;
