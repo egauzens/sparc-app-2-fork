@@ -53,7 +53,7 @@
       <div class="discover-header">
         <div class="section-kicker">Explore the catalog</div>
         <h2 class="section-h2">Discover by topic</h2>
-        <p class="section-sub">Browse datasets and models by experimental approach, anatomical structure, or species.</p>
+        <p class="section-sub">Browse datasets and models by experimental approach, anatomical structure, species, or contributing consortia.</p>
       </div>
       <div class="facet-tabs">
         <button
@@ -349,7 +349,7 @@ const { data: algoliaFacetData } = useAsyncData('facets', async () => {
 })
 
 const facetTabConfig = [
-  { id: 'modality',   label: 'By modality',   path: 'item.modalities.keyword' },
+  { id: 'modality',   label: 'By approach',   path: 'item.modalities.keyword' },
   { id: 'anatomy',      label: 'By anatomy',      path: 'anatomy.organ.category.name' },
   { id: 'species',    label: 'By species',    path: 'organisms.primary.species.name' },
   { id: 'consortium', label: 'By consortium', path: 'supportingAwards.consortium.name' },
@@ -388,10 +388,10 @@ function buildFacetItems(raw, totalCount) {
     .sort((a, b) => b.count - a.count)
     .slice(0, 15)
   const max = items[0]?.count || 1
-  // Real items scaled to 95% max so "Show All" at 100% is visually 5 points wider
+  // Real items scaled to 95% max so "Total" at 100% is visually 5 points wider
   const realItems = items.map(item => ({ ...item, pct: Math.max(Math.round((item.count / max) * 95), 1) }))
   return [
-    { label: 'Show All', count: totalCount, pct: 100, isShowAll: true },
+    { label: 'Total', count: totalCount, pct: 100, isShowAll: true },
     ...realItems,
   ]
 }

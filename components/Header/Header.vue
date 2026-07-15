@@ -156,7 +156,8 @@ const navItems = [
     iconHtml: UPLOAD_ICON,
     links: [
       { title: 'Submit data', sub: 'Deposit datasets and protocols', href: '/share-data' },
-      { title: 'Join a consortium', sub: 'Collaborative research groups', href: '/about' },
+      { title: 'Join a consortium', sub: 'Collaborative research groups', href: '/about/what-we-offer' },
+      { title: 'About the DRC', sub: 'The SPARC Data and Resource Center', href: '/about' },
       { divider: true },
       { title: 'Feedback', sub: 'Help us improve', href: '/contact-us?type=feedback' },
     ]
