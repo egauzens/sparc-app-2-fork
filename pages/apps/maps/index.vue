@@ -434,6 +434,44 @@ const openViewWithQuery = async (router, route, $axios, sparcApi, algoliaIndex, 
   return [startingMap, organ_name, currentEntry, successMessage, failMessage, facets]
 }
 
+// Homepage connection deep-link (?species=…&searchTerm=…): build a full viewer state with
+// a single MultiFlatmap entry so the map is restored via the `state` prop (the same path a
+// shared permalink uses). Carrying the sex as `biologicalSex` in the inner state keeps human 
+// female from defaulting to male.
+//
+// The connection is restored through `sidebar.connectivityEntries`, not a flatmap search
+// term: a search highlight gets overridden as the page finishes rendering, whereas the
+// connectivity-knowledge event re-runs restoreSidebarState(state) once knowledge has
+// loaded, re-selecting the connection and opening the connectivity explorer for good.
+const buildConnectionDeepLinkState = (route) => {
+  if (!(route.query.species && route.query.searchTerm &&
+        (route.query.type === 'flatmap' || route.query.type === 'ac'))) {
+    return undefined
+  }
+  return {
+    entries: [
+      {
+        resource: route.query.species,
+        type: 'MultiFlatmap',
+        mode: 'main',
+        id: 1,
+        state: {
+          species: route.query.species,
+          state: {
+            searchTerm: route.query.searchTerm,
+            biologicalSex: route.query.biologicalSex,
+          },
+        },
+        label: '',
+        discoverId: undefined,
+      },
+    ],
+    sidebar: {
+      connectivityEntries: [route.query.searchTerm],
+    },
+  }
+}
+
 const constructMapEntries = (apps) => {
   if (!apps) return []
   return apps.filter((app) => {
@@ -485,7 +523,10 @@ export default {
     const appPage = await $contentfulClient.getEntry(config.public.ctf_apps_page_id)
     const clientOnly = process.client
 
-    if (route.query.id) {
+    const connectionState = buildConnectionDeepLinkState(route)
+    if (connectionState) {
+      state = connectionState
+    } else if (route.query.id) {
       [uuid, state, successMessage, failMessage] = await restoreStateWithUUID(clientOnly, route, $axios, options.sparcApi)
     } else {
       //Now check if it should open a specific view based on query
