@@ -101,7 +101,13 @@ export default defineNuxtConfig({
     '/resources/software': { redirect: '/tools-and-resources/tools?resourceType=Software' },
     '/resources/osparc-services': { redirect: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsvH' },
     '/resources/submit': { redirect: '/contact-us?type=tool' },
-    '/apps/precision-dashboard': { ssr:false }
+    '/apps/precision-dashboard': { ssr:false },
+    // non-production deploys (staging, PR previews, local dev) should stay crawlable
+    // (e.g. so tools like Claude can browse them to generate videos/screenshots)
+    // but must never be indexed by search engines
+    ...(process.env.DEPLOY_ENV !== 'production' ? {
+      '/**': { headers: { 'X-Robots-Tag': 'noindex' } }
+    } : {})
   },
   hooks: {
     'pages:extend'(pages) {
@@ -274,7 +280,9 @@ export default defineNuxtConfig({
       '/*?*source_url=',
       '/*source_url=',
       '/communication-preferences'
-    ] : ['/'],
+    ] : [],
+    // non-production is kept crawlable (see routeRules X-Robots-Tag noindex above)
+    // rather than blocking crawlers outright with `disallow: ['/']`
     blockNonSeoBots: true,
     sitemap: `${process.env.ROOT_URL}/sitemap.xml`
   },
