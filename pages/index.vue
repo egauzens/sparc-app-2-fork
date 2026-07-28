@@ -72,7 +72,7 @@
           :class="{ 'facet-chart--hidden': activeFacetTab !== tab.id }"
         >
           <div
-            v-for="(item, index) in facetDataByTab[tab.id]"
+            v-for="(item, index) in visibleFacetDataByTab[tab.id].items"
             :key="item.label"
             class="facet-bar-row"
             :class="{ 'facet-bar-row--show-all': item.isShowAll }"
@@ -96,6 +96,11 @@
               <span v-if="index !== 0" class="facet-bar-count">{{ item.count.toLocaleString() }}</span>
             </div>
           </div>
+          <button
+            v-if="visibleFacetDataByTab[tab.id].hasMore"
+            class="facet-show-more"
+            @click="toggleShowMore(tab.id)"
+          >{{ expandedTabs[tab.id] ? '− Compress' : '+ Expand' }}</button>
         </div>
       </div>
     </div>
@@ -376,6 +381,7 @@ onMounted(() => {
 
 watch(activeFacetTab, async () => {
   chartAnimated.value = false
+  expandedTabs.value = {}
   await nextTick()
   requestAnimationFrame(() => requestAnimationFrame(() => {
     chartAnimated.value = true
@@ -386,7 +392,6 @@ function buildFacetItems(raw, totalCount) {
   const items = Object.entries(raw || {})
     .map(([label, count]) => ({ label, count }))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 15)
   const max = items[0]?.count || 1
   // Real items scaled to 95% max so "Total" at 100% is visually 5 points wider
   const realItems = items.map(item => ({ ...item, pct: Math.max(Math.round((item.count / max) * 95), 1) }))
@@ -405,6 +410,24 @@ const facetDataByTab = computed(() => {
   )
 })
 
+const SHOW_MORE_COUNT = 12
+const expandedTabs = ref({})
+
+function toggleShowMore(tabId) {
+  expandedTabs.value = { ...expandedTabs.value, [tabId]: !expandedTabs.value[tabId] }
+}
+
+const visibleFacetDataByTab = computed(() => {
+  return Object.fromEntries(
+    facetTabConfig.map(tab => {
+      const [total, ...realItems] = facetDataByTab.value[tab.id] || []
+      const hasMore = realItems.length > SHOW_MORE_COUNT
+      const visibleRealItems = expandedTabs.value[tab.id] ? realItems : realItems.slice(0, SHOW_MORE_COUNT)
+      return [tab.id, { items: total ? [total, ...visibleRealItems] : visibleRealItems, hasMore }]
+    })
+  )
+})
+
 const measureLabelColWidth = async () => {
   await nextTick()
   const labels = document.querySelectorAll('.facet-bar-label')
@@ -413,7 +436,7 @@ const measureLabelColWidth = async () => {
   if (max > 0) labelColWidth.value = `${max}px`
 }
 
-watch(facetDataByTab, measureLabelColWidth)
+watch(visibleFacetDataByTab, measureLabelColWidth)
 onMounted(measureLabelColWidth)
 
 function navigateToFacet(item) {
@@ -811,6 +834,20 @@ onBeforeMount(() => {
 .facet-bar-count--inside {
   color: #fff;
   padding-right: 10px;
+}
+
+.facet-show-more {
+  grid-column: 2;
+  justify-self: center;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $purple;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: inherit;
 }
 
 /* ── Explore the data ── */
