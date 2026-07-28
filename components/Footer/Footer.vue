@@ -4,32 +4,34 @@
       <el-row :gutter="32">
         <el-col :sm="{ span: 22, offset: 1 }" :md="{ span: 12, offset: 0 }">
           <div class="footer__info">
-            <div class="footer__info--logo">
-              <nuxt-link :to="{ name: 'index' }">
-                <client-only><sparc-logo /></client-only>
-              </nuxt-link>
+            <div class="footer__info--top">
+              <div class="footer__info--logo">
+                <nuxt-link :to="{ name: 'index' }">
+                  <client-only><sparc-logo /></client-only>
+                </nuxt-link>
+              </div>
+              <div class="footer__info--social">
+                <a href="https://bsky.app/profile/sparc.science" target="_blank">
+                  <svgo-icon-bluesky class="social-media-icon pr-16"/>
+                </a>
+                <a
+                  href="https://www.linkedin.com/groups/12694019"
+                  target="_blank"
+                >
+                  <svgo-icon-linkedin class="social-media-icon pr-16"/>
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCCmUx4tOSlTAwlUrjSGz2mw"
+                  target="_blank"
+                >
+                  <svgo-icon-youtube class="social-media-icon"/>
+                </a>
+              </div>
             </div>
             <div class="footer__info--blurb">
               <p>
                 {{ footerData.footerDescription }}
               </p>
-            </div>
-            <div class="footer__info--social">
-              <a href="https://bsky.app/profile/sparc.science" target="_blank">
-                <svgo-icon-bluesky class="social-media-icon pr-16"/>
-              </a>
-              <a
-                href="https://www.linkedin.com/groups/12694019"
-                target="_blank"
-              >
-                <svgo-icon-linkedin class="social-media-icon pr-16"/>
-              </a>
-              <a
-                href="https://www.youtube.com/channel/UCCmUx4tOSlTAwlUrjSGz2mw"
-                target="_blank"
-              >
-                <svgo-icon-youtube class="social-media-icon"/>
-              </a>
             </div>
             <div class="row">
                 <a class="mr-32" href="https://doi.org/10.17616/R31NJN2V" target="_blank">
@@ -173,6 +175,13 @@ export default {
 
   &__info {
 
+    &--top {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
     &--blurb {
       p {
         font-size: 1rem;
@@ -200,6 +209,7 @@ export default {
     ul {
       list-style: none;
       padding-left: 0;
+      margin: 0;
 
       li {
         padding-bottom: 1rem;

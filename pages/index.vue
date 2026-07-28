@@ -453,7 +453,7 @@ const toolTabs = [
     image: previewOsparc,
     kicker: 'Computational platform',
     heading: 'Build and run computational workflows',
-    desc: 'Connect services and models into reproducible pipelines. oSPARC lets you run simulations, share notebooks, and collaborate on computational studies — no local setup required.',
+    desc: 'Connect services and models into reproducible pipelines. o²S²PARC lets you run simulations, share notebooks, and collaborate on computational studies — no local setup required.',
     href: '/tools-and-resources/4LkLiH5s4FV0LVJd3htsvH',
     external: true,
     btnLabel: 'Open o²S²PARC',

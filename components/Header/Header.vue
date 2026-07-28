@@ -8,8 +8,15 @@
 
       <!-- Center announcement -->
       <div class="nav-announcement">
-        This repository is under review for potential modification in compliance with Administration directives.
-        <a href="https://docs.sparc.science/docs/notice-regarding-repository-review-in-response-to-executive-order-14168" target="_blank"><svgo-icon-help class="help-icon"/></a>
+        <sparc-tooltip placement="bottom-center">
+          <template #item>
+            <svgo-icon-help class="help-icon"/>
+          </template>
+          <template #data>
+            This repository is under review for potential modification in compliance with Administration directives.
+            <a href="https://docs.sparc.science/docs/notice-regarding-repository-review-in-response-to-executive-order-14168" target="_blank">Learn more</a>
+          </template>
+        </sparc-tooltip>
       </div>
 
       <!-- Desktop nav -->
@@ -82,25 +89,42 @@
     <div v-if="menuOpen" class="mobile-overlay" @click="closeMobileNav">
       <div class="mobile-nav" @click.stop>
         <ul class="mobile-nav-links">
-          <li v-for="link in mobileLinks" :key="link.href">
-            <nuxt-link
-              :to="link.href"
-              :class="{ active: activeLink(link.href) }"
-              @click="closeMobileNav"
-            >{{ link.displayTitle }}</nuxt-link>
+          <li
+            v-for="item in navItems"
+            :key="item.id"
+            class="mobile-nav-item"
+            :class="{ open: mobileOpenSection === item.id }"
+          >
+            <button class="mobile-nav-btn" @click="toggleMobileSection(item.id)">
+              {{ item.label }}
+              <svg class="nav-chevron" viewBox="0 0 10 6" width="10" height="6" fill="none">
+                <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <ul v-show="mobileOpenSection === item.id" class="mobile-sub-links">
+              <template v-for="(link, i) in item.links" :key="i">
+                <li v-if="!link.divider">
+                  <a
+                    v-if="link.external"
+                    :href="link.href"
+                    target="_blank"
+                    @click="closeMobileNav"
+                  >{{ link.title }}</a>
+                  <nuxt-link
+                    v-else
+                    :to="link.href"
+                    :class="{ active: activeLink(link.href) }"
+                    @click="closeMobileNav"
+                  >{{ link.title }}</nuxt-link>
+                </li>
+              </template>
+            </ul>
           </li>
         </ul>
-        <hr class="mobile-divider" />
         <ul class="mobile-util-links">
           <li>
-            <nuxt-link :to="`/contact-us?source_url=${currentUrl}`" target="_blank" @click="closeMobileNav">
-              Contact Us
-            </nuxt-link>
-          </li>
-          <li><a href="https://docs.sparc.science/" target="_blank">Help</a></li>
-          <li>
             <client-only>
-              <a v-if="!userProfile" class="sign-in-link" @click="showLoginDialog = true; closeMobileNav()">Sign in</a>
+              <button v-if="!userProfile" class="mobile-signin-btn" @click="showLoginDialog = true; closeMobileNav()">Sign in</button>
               <span v-else>
                 <a class="sign-in-link" @click="handleUserMenuSelect('profile', ['user','profile']); closeMobileNav()">Profile</a>
                 <a class="sign-in-link" @click="handleUserMenuSelect('logout', ['user','logout']); closeMobileNav()">Logout</a>
@@ -133,6 +157,8 @@ const UPLOAD_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 const USERS_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>`
 const TOOLS_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`
 
+const MOBILE_BREAKPOINT = 680
+
 const navItems = [
   {
     id: 'access',
@@ -157,7 +183,6 @@ const navItems = [
     links: [
       { title: 'Submit data', sub: 'Deposit datasets and protocols', href: '/share-data' },
       { title: 'Join a consortium', sub: 'Collaborative research groups', href: '/about/what-we-offer' },
-      { title: 'About the DRC', sub: 'The SPARC Data and Resource Center', href: '/about' },
       { divider: true },
       { title: 'Feedback', sub: 'Help us improve', href: '/contact-us?type=feedback' },
     ]
@@ -173,6 +198,7 @@ const navItems = [
       { title: 'SPARC Program', sub: 'Autonomic nervous system mapping', href: '/about/consortia/sparc' },
       { title: 'VITAL', sub: 'Visceral pain and interoception', href: '/about/consortia/vital' },
       { divider: true },
+      { title: 'About the DRC', sub: 'The SPARC Data and Resource Center', href: '/about' },
       { title: 'Share', sub: 'Share a news, event, or story that you would like to highlight', href: '/news-and-events' },
     ]
   },
@@ -190,24 +216,15 @@ const navItems = [
   }
 ]
 
-const mobileLinks = [
-  { displayTitle: 'Data & Models', href: '/data?type=dataset' },
-  { displayTitle: 'SPARC Apps', href: '/apps' },
-  { displayTitle: 'Tools & Resources', href: '/tools-and-resources' },
-  { displayTitle: 'News & Events', href: '/news-and-events' },
-  { displayTitle: 'About', href: '/about' },
-  { displayTitle: 'Submit to SPARC', href: '/share-data' },
-]
-
 export default {
   name: 'SparcHeader',
   components: { LoginModal },
   data: () => ({
     navItems,
-    mobileLinks,
     menuOpen: false,
     showLoginDialog: false,
     activeDropdown: null,
+    mobileOpenSection: null,
     scrolled: false,
   }),
   computed: {
@@ -217,20 +234,16 @@ export default {
       const endIndex = path.indexOf('/', 1)
       return endIndex === -1 ? path.substring(0) : path.substring(0, endIndex)
     },
-    currentUrl() {
-      const config = useRuntimeConfig()
-      const url = new URL(this.$route.fullPath, config.public.ROOT_URL)
-      url.searchParams.delete('source_url')
-      return encodeURIComponent(url.pathname + url.search)
-    },
   },
   mounted() {
     document.addEventListener('click', this.handleDocumentClick)
     window.addEventListener('scroll', this.onScroll, { passive: true })
+    window.addEventListener('resize', this.onResize)
   },
   beforeUnmount() {
     document.removeEventListener('click', this.handleDocumentClick)
     window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('resize', this.onResize)
   },
   watch: {
     profileComplete: {
@@ -256,6 +269,9 @@ export default {
     onScroll() {
       this.scrolled = window.scrollY > 0
     },
+    onResize() {
+      if (this.menuOpen && window.innerWidth > MOBILE_BREAKPOINT) this.closeMobileNav()
+    },
     handleDocumentClick(e) {
       if (!e.target.closest('.nav-item') && !e.target.closest('.nav-user')) {
         this.activeDropdown = null
@@ -263,6 +279,9 @@ export default {
     },
     toggleDropdown(id) {
       this.activeDropdown = this.activeDropdown === id ? null : id
+    },
+    toggleMobileSection(id) {
+      this.mobileOpenSection = this.mobileOpenSection === id ? null : id
     },
     closeAll() {
       this.activeDropdown = null
@@ -296,6 +315,7 @@ verifyProfileComplete() {
     },
     closeMobileNav() {
       this.menuOpen = false
+      this.mobileOpenSection = null
       this.updateDisabledScrolling(false)
     },
   }
@@ -342,8 +362,7 @@ verifyProfileComplete() {
   text-align: left;
   font-size: 14px;
   color: #24245b;
-  padding: 0 24px;
-  @media (max-width: 1120px) { display: none; }
+  padding: 0 1rem;
 }
 
 /* ── Desktop nav links ── */
@@ -351,7 +370,7 @@ verifyProfileComplete() {
   display: flex;
   align-items: center;
   gap: 0;
-  @media (max-width: 1120px) { display: none; }
+  @media (max-width: 680px) { display: none; }
 }
 
 .nav-item {
@@ -507,7 +526,7 @@ verifyProfileComplete() {
     background: #f9f2fc;
     border-color: #8300bf;
   }
-  @media (max-width: 1120px) { display: none; }
+  @media (max-width: 680px) { display: none; }
 }
 
 /* Authenticated user dropdown */
@@ -558,7 +577,7 @@ verifyProfileComplete() {
   padding: 6px;
   align-items: center;
   justify-content: center;
-  @media (max-width: 1120px) { display: flex; }
+  @media (max-width: 680px) { display: flex; }
 }
 
 /* ── Mobile overlay & nav ── */
@@ -590,14 +609,46 @@ verifyProfileComplete() {
   list-style: none;
   padding: 0;
   margin: 0 0 0.5rem;
+}
+
+.mobile-nav-item {
+  margin: 0;
+}
+
+.mobile-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 4px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #24245b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  .nav-chevron {
+    opacity: 0.5;
+    transition: transform 0.2s;
+  }
+  .mobile-nav-item.open & .nav-chevron {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+}
+
+.mobile-sub-links {
+  list-style: none;
+  padding: 0 0 8px 12px;
+  margin: 0;
   li {
     margin: 0;
   }
   a {
     display: block;
-    padding: 10px 4px;
-    font-size: 15px;
-    font-weight: 500;
+    padding: 8px 4px;
+    font-size: 14px;
     color: #24245b;
     text-decoration: none;
     transition: color 0.15s;
@@ -606,15 +657,8 @@ verifyProfileComplete() {
     }
     &.active {
       color: #8300bf;
-      border-bottom: 2px solid #8300bf;
     }
   }
-}
-
-.mobile-divider {
-  border: none;
-  border-top: 1px solid #e4e7ed;
-  margin: 0.5rem 0;
 }
 
 .mobile-util-links {
@@ -634,6 +678,23 @@ verifyProfileComplete() {
   }
   .sign-in-link {
     cursor: pointer;
+  }
+}
+
+.mobile-signin-btn {
+  font-size: 16px;
+  color: #24245b;
+  background: none;
+  border: 1px solid #24245b;
+  border-radius: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  &:hover {
+    color: #8300bf;
+    background: #f9f2fc;
+    border-color: #8300bf;
   }
 }
 
