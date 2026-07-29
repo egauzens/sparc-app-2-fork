@@ -26,6 +26,8 @@
           :key="item.id"
           class="nav-item"
           :class="{ open: activeDropdown === item.id }"
+          @mouseenter="openDropdown(item.id)"
+          @mouseleave="closeDropdown(item.id)"
         >
           <button class="nav-btn" @click="toggleDropdown(item.id)">
             {{ item.label }}
@@ -71,7 +73,13 @@
       <div class="nav-right">
         <client-only>
           <button v-if="!userProfile" class="nav-signin-btn" @click="showLoginDialog = true">Sign in</button>
-          <div v-else class="nav-user" :class="{ open: activeDropdown === 'user' }">
+          <div
+            v-else
+            class="nav-user"
+            :class="{ open: activeDropdown === 'user' }"
+            @mouseenter="openDropdown('user')"
+            @mouseleave="closeDropdown('user')"
+          >
             <button class="nav-btn" @click="toggleDropdown('user')">{{ username }}</button>
             <div class="user-dropdown">
               <button class="user-dd-item" @click="handleUserMenuSelect('profile', ['user','profile'])">Profile</button>
@@ -279,6 +287,12 @@ export default {
     },
     toggleDropdown(id) {
       this.activeDropdown = this.activeDropdown === id ? null : id
+    },
+    openDropdown(id) {
+      this.activeDropdown = id
+    },
+    closeDropdown(id) {
+      if (this.activeDropdown === id) this.activeDropdown = null
     },
     toggleMobileSection(id) {
       this.mobileOpenSection = this.mobileOpenSection === id ? null : id
