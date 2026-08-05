@@ -6,19 +6,6 @@
         <img src="/sparc-logo-primary.svg" alt="SPARC" height="auto" />
       </nuxt-link>
 
-      <!-- Center announcement -->
-      <div class="nav-announcement">
-        <sparc-tooltip placement="bottom-center">
-          <template #item>
-            <svgo-icon-help class="help-icon"/>
-          </template>
-          <template #data>
-            This repository is under review for potential modification in compliance with Administration directives.
-            <a href="https://docs.sparc.science/docs/notice-regarding-repository-review-in-response-to-executive-order-14168" target="_blank">Learn more</a>
-          </template>
-        </sparc-tooltip>
-      </div>
-
       <!-- Desktop nav -->
       <div class="nav-links">
         <div
@@ -88,12 +75,19 @@
           </div>
         </client-only>
         <button class="mobile-menu-btn" @click="openMobileNav" aria-label="Open menu">
-          <svgo-icon-hamburger height="20" width="20" />
+          <svgo-icon-hamburger height="30" width="30" />
         </button>
       </div>
     </nav>
+  </div>
 
-    <!-- Mobile overlay -->
+  <!-- Announcement banner -->
+  <div class="announcement">
+    This repository is under review for potential modification in compliance with Administration directives.
+    <a href="https://docs.sparc.science/docs/notice-regarding-repository-review-in-response-to-executive-order-14168" target="_blank"><svgo-icon-help class="help-icon"/></a>
+  </div>
+
+  <!-- Mobile overlay -->
     <div v-if="menuOpen" class="mobile-overlay" @click="closeMobileNav">
       <div class="mobile-nav" @click.stop>
         <ul class="mobile-nav-links">
@@ -151,8 +145,7 @@
       </div>
     </div>
 
-    <login-modal :show-dialog="showLoginDialog" @dialog-closed="showLoginDialog = false" />
-  </div>
+  <login-modal :show-dialog="showLoginDialog" @dialog-closed="showLoginDialog = false" />
 </template>
 
 <script>
@@ -353,7 +346,7 @@ verifyProfileComplete() {
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
   &.nav--scrolled {
@@ -370,13 +363,27 @@ verifyProfileComplete() {
   margin-top: .5rem;
 }
 
-/* ── Center announcement ── */
-.nav-announcement {
-  flex: 1;
-  text-align: left;
+/* ── Announcement banner ── */
+.announcement {
+  background-color: #f9f2fc;
+  text-align: center;
+  border-top: 1px solid $purple;
+  border-bottom: 1px solid $purple;
+  padding: .5rem;
   font-size: 14px;
   color: #24245b;
-  padding: 0 1rem;
+
+  a {
+    color: $purple;
+    font-weight: 500;
+  }
+}
+
+.help-icon {
+  color: $purple;
+  height: 1.5rem;
+  width: 1.5rem;
+  vertical-align: middle;
 }
 
 /* ── Desktop nav links ── */
@@ -384,6 +391,7 @@ verifyProfileComplete() {
   display: flex;
   align-items: center;
   gap: 0;
+  margin-left: auto;
   @media (max-width: 680px) { display: none; }
 }
 
@@ -522,6 +530,7 @@ verifyProfileComplete() {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  @media (max-width: 680px) { margin-left: auto; }
 }
 
 
@@ -588,10 +597,15 @@ verifyProfileComplete() {
   border: none;
   color: #24245b;
   cursor: pointer;
-  padding: 6px;
+  padding: 10px;
   align-items: center;
   justify-content: center;
   @media (max-width: 680px) { display: flex; }
+
+  svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
 }
 
 /* ── Mobile overlay & nav ── */
@@ -726,10 +740,4 @@ verifyProfileComplete() {
   &:hover { color: #24245b; }
 }
 
-.help-icon {
-  color: $purple;
-  height: 1.25rem;
-  width: 1.25rem;
-  vertical-align: middle;
-}
 </style>

@@ -41,10 +41,23 @@
         <p class="section-sub">Explore the body's neural pathways and anatomical connections, grounded in published science.</p>
       </div>
       <div class="map-card">
-        <HomepageMapWidget
-          :flatmapAPI="config.public.flatmap_api"
-          :sparcAPI="config.public.portal_api"
-        />
+        <div class="homepage-navigator-video">
+          <video
+            class="navigator-video"
+            src="https://videos.ctfassets.net/6bya4tyw8399/5DtQuKPtFiaqfEKJQEeVOj/aafb746d012dd0f04a6b93e6a31e5fa9/sparc-hero-1280x560-nocta.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+          />
+
+          <nuxt-link to="/apps/maps" class="map-open-hint">
+            Open full map
+            <svg viewBox="0 0 12 12" width="11" height="11" fill="none">
+              <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </nuxt-link>
+        </div>
       </div>
     </div>
 
@@ -704,13 +717,65 @@ onBeforeMount(() => {
 }
 
 .map-card {
-  border: 1px solid $lineColor1;
   border-radius: 4px;
   overflow: hidden;
   background: #fff;
+  padding: 1rem;
 }
 
+.homepage-navigator-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
 
+.navigator-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.map-open-hint {
+  position: absolute;
+  top: 56%;
+  left: 95%;
+  transform: translateX(-100%);
+  width: max-content;
+  white-space: nowrap;
+  z-index: 11;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #8300bf;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background 0.12s;
+
+  @media (max-width: 680px) {
+    font-size: 0.7rem;
+    gap: 4px;
+    padding: 5px 9px;
+    border-radius: 6px;
+
+    svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  &:hover {
+    background: #6a009a;
+  }
+}
 
 /* ── Discover by topic ── */
 .discover-section {
