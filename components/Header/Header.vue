@@ -169,7 +169,7 @@ const navItems = [
     links: [
       { title: 'Datasets & models', sub: 'Search across all resources', href: '/data?type=dataset' },
       { title: 'Flatmap', sub: 'Navigate by anatomy', href: '/apps/maps?type=ac' },
-      { title: 'Projects', sub: 'Browse projects from supported consortia', href: '/about' },
+      { title: 'Projects', sub: 'Browse projects from supported consortia', href: '/about/projects' },
       { title: 'News', sub: 'Updates from the community', href: '/news-and-events' },
       { divider: true },
       { title: 'Documentation', sub: 'Guides, tutorials, and help', href: 'https://docs.sparc.science/', external: true },

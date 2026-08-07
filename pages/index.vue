@@ -736,7 +736,7 @@ onBeforeMount(() => {
 .map-open-hint {
   position: absolute;
   top: 56%;
-  left: 95%;
+  left: 85%;
   transform: translateX(-100%);
   width: max-content;
   white-space: nowrap;
