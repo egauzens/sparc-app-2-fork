@@ -44,7 +44,7 @@
         <div class="homepage-navigator-video">
           <video
             class="navigator-video"
-            src="https://videos.ctfassets.net/6bya4tyw8399/5DtQuKPtFiaqfEKJQEeVOj/aafb746d012dd0f04a6b93e6a31e5fa9/sparc-hero-1280x560-nocta.mp4"
+            src="https://videos.ctfassets.net/6bya4tyw8399/3JK9DMGUPaGb9pbK6fPAzq/fba88d1f7ac369b72caf2218957787c0/sparc-hero-species-nocta-even.mp4"
             autoplay
             loop
             muted
@@ -147,10 +147,12 @@
           >
             <div class="preview-media">
               <a v-if="tab.external" :href="tab.href" target="_blank" rel="noopener">
-                <img :src="tab.image" :alt="tab.heading" />
+                <video v-if="tab.video" :src="tab.video" autoplay loop muted playsinline />
+                <img v-else :src="tab.image" :alt="tab.heading" />
               </a>
               <nuxt-link v-else :to="tab.href">
-                <img :src="tab.image" :alt="tab.heading" />
+                <video v-if="tab.video" :src="tab.video" autoplay loop muted playsinline />
+                <img v-else :src="tab.image" :alt="tab.heading" />
               </nuxt-link>
             </div>
             <div class="preview-text">
@@ -232,11 +234,6 @@
 
 <script setup>
 import { failMessage } from '@/utils/notification-messages'
-import previewNervoSensus from '~/assets/tool-previews/nervosensus.gif'
-import previewPrecision from '~/assets/tool-previews/precision-dashboard.png'
-import previewOsparc from '~/assets/tool-previews/oSPARC.gif'
-import previewSckanNli from '~/assets/tool-previews/SCKAN NLI.gif'
-import previewSckanner from '~/assets/tool-previews/SCKANNER.gif'
 import { parseMarkdown } from '@/utils/formattingUtils.js'
 import getHomepageFields from '@/utils/homepageFields'
 import { useMainStore } from '../store/index.js'
@@ -464,7 +461,7 @@ const toolTabs = [
     {
     id: 'precision', label: 'Precision Atlas',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 11.5 Q3 9 5 10 T8 7 T11 5 T15 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M1 13 Q4 11.5 6 12 T10 10 T15 9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/></svg>`,
-    image: previewPrecision,
+    video: 'https://videos.ctfassets.net/6bya4tyw8399/4hG99G3CdVfjzNUaK2Uiwt/c29b44c400dbe21121a73be751a39211/precision-explore-data-callouts.mp4',
     kicker: 'Gene expression',
     heading: 'Query gene expression across cell types',
     desc: 'Search any gene to see expression profiles across DRG neuron subtypes — UMAP projections and violin plots sourced directly from SPARC datasets.',
@@ -475,7 +472,7 @@ const toolTabs = [
   {
     id: 'nervosensus', label: 'NervoSensus',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="11" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="5" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="9" r="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="6" cy="8" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="12" r="1" stroke="currentColor" stroke-width="1.2"/><circle cx="3" cy="5" r="1" stroke="currentColor" stroke-width="1.2"/></svg>`,
-    image: previewNervoSensus,
+    video: 'https://videos.ctfassets.net/6bya4tyw8399/4g2MwniDKFfBU6xLfs9mw0/f48d73e5582c6ba848e31f920e7792da/nervosensus-explore-data-callouts_1.mp4',
     kicker: 'Cell explorer',
     heading: 'Navigate cell types interactively',
     desc: 'Click any neuron bubble to surface its proposed relationships, marker genes, gene expression distribution, and axon phenotype.',
@@ -486,7 +483,7 @@ const toolTabs = [
   {
     id: 'osparc', label: 'o²S²PARC',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="2" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="11" y="4" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><rect x="6.5" y="9" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 5.5H6.5M9.5 3.5H11M9.5 5.5H11M8 5V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-    image: previewOsparc,
+    video: 'https://videos.ctfassets.net/6bya4tyw8399/7s6GTmypEzkDhytZYniK9S/1e05fdc8c8b83e25e74165e7f0b7fb7b/osparc__978_x_504_px_.mp4',
     kicker: 'Computational platform',
     heading: 'Build and run computational workflows',
     desc: 'Connect services and models into reproducible pipelines. o²S²PARC lets you run simulations, share notebooks, and collaborate on computational studies — no local setup required.',
@@ -497,7 +494,7 @@ const toolTabs = [
   {
     id: 'sckan-nli', label: 'SCKAN NLI',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M2 8h8M2 12h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="13" cy="11" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M14.5 12.5l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-    image: previewSckanNli,
+    video: 'https://videos.ctfassets.net/6bya4tyw8399/4Q60crr4xcaqfDdhcr9hcb/56ad456f5c0af7f3c9b9259cadeaac81/SCKAN_NLIv2__978_x_504_px_.mp4',
     kicker: 'Natural language interface',
     heading: 'Query SCKAN in plain English',
     desc: 'Ask questions about neural connectivity in natural language. SCKAN NLI translates your query into structured SPARQL and returns grounded answers from the SCKAN knowledge base.',
@@ -508,7 +505,7 @@ const toolTabs = [
   {
     id: 'sckanner', label: 'SCKANNER',
     icon: `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-    image: previewSckanner,
+    video: 'https://videos.ctfassets.net/6bya4tyw8399/4DT325nAYvgQ5m36fQ3YE8/5d3d6bcef61e9b15a2521fcc8a6e2685/sckanner-explore-data-callouts_1.mp4',
     kicker: 'Knowledge browser',
     heading: 'Explore SCKAN connectivity knowledge',
     desc: 'Browse the full SCKAN connectivity graph — filter by species, organ, and pathway type to surface the anatomical evidence behind every nerve connection.',
@@ -720,7 +717,6 @@ onBeforeMount(() => {
   border-radius: 4px;
   overflow: hidden;
   background: #fff;
-  padding: 1rem;
 }
 
 .homepage-navigator-video {
